@@ -4,11 +4,12 @@ const connection = require('../../../models/connection');
 const productsModel = require('../../../models/productsModel');
                        
 // coisinho só pra não bugar
-// const productsModel = {
-//   getAll: async () => {},
-//   getById: async () => { },
-//   create: async ({ id, name }) => {},
-// }
+const productsModel = {
+  // getAll: async () => {},
+  // getById: async () => { },
+  // create: async ({ id, name }) => {},
+  edit: async (id, { name }) => { },
+}
 
 // teste do getAll()
 describe('Get all products', () => {
@@ -161,6 +162,30 @@ describe('Creates one product', () => {
 });
 
 // testes do edit()
+describe('Edits a product', () => {
+  describe('', () => {
+    before( async () => {
+      const execute = [{ affectedRows: 1 }];
+
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+    after( async () => {
+      connection.execute.restore();
+    });
+
+    it('Edits a product and returns an object', async () => {
+      const result = await productsModel.edit(1, { name: "Martelo do Magneto" });
+
+      expect(result).to.be.an('object');
+    });
+
+    it('The returned object contains the number of affected rows', async () => {
+      const result = await productsModel.edit(1, { name: "Martelo do Magneto" });
+
+      expect(result).to.be.have.property('affectedRows');
+    });
+  });
+});
 
 // testes do exists()
 
