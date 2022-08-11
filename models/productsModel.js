@@ -53,6 +53,8 @@ const productsModel = {
 
     return result;
   },
+
+  search: async () => { },
 };
 
 module.exports = productsModel;
