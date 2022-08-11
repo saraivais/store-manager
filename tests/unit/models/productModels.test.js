@@ -155,27 +155,25 @@ describe('Creates one product', () => {
 
 // testes do edit()
 describe('Edits a product', () => {
-  describe('', () => {
-    before( async () => {
-      const execute = [{ affectedRows: 1 }];
+  before( async () => {
+    const execute = [{ affectedRows: 1 }];
 
-      sinon.stub(connection, 'execute').resolves(execute);
-    });
-    after( async () => {
-      connection.execute.restore();
-    });
+    sinon.stub(connection, 'execute').resolves(execute);
+  });
+  after( async () => {
+    connection.execute.restore();
+  });
 
-    it('Edits a product and returns an object', async () => {
-      const result = await productsModel.edit(1, { name: "Martelo do Magneto" });
+  it('Edits a product and returns an object', async () => {
+    const result = await productsModel.edit(1, { name: "Martelo do Magneto" });
 
-      expect(result).to.be.an('object');
-    });
+    expect(result).to.be.an('object');
+  });
 
-    it('The returned object contains the number of affected rows', async () => {
-      const result = await productsModel.edit(1, { name: "Martelo do Magneto" });
+  it('The returned object contains the number of affected rows', async () => {
+    const result = await productsModel.edit(1, { name: "Martelo do Magneto" });
 
-      expect(result).to.be.have.property('affectedRows');
-    });
+    expect(result).to.be.have.property('affectedRows');
   });
 });
 
@@ -227,5 +225,28 @@ describe('Exists', () => {
 });
 
 // testes do delete()
+describe('Deletes a product', () => {
+  before( async () => {
+    const execute = [{ affectedRows: 1 }];
+
+    sinon.stub(connection, 'execute').resolves(execute);
+  });
+
+  after( async () => {
+    connection.execute.restore();
+  });
+
+    it('Deletes a product and returns an object', async () => {
+    const result = await productsModel.delete(1);
+
+    expect(result).to.be.an('object');
+  });
+
+  it('The returned object contains the number of affected rows', async () => {
+    const result = await productsModel.delete(1);
+
+    expect(result).to.be.have.property('affectedRows');
+  });
+});
 
 // testes do searchByName();
