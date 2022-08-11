@@ -180,6 +180,51 @@ describe('Edits a product', () => {
 });
 
 // testes do exists()
+describe('Exists', () => {
+  describe('Returns false when entry does not exist in DB', () => {
+    before( async () => {
+      const execute = [[]];
+
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+    after( async () => {
+      connection.execute.restore();
+    });
+
+    it('Returns a boolean', async () => { 
+      const result = await productsModel.exists(1);
+
+      expect(result).to.be.a('boolean');
+    });
+    it('The value is false', async () => {
+      const result = await productsModel.exists(1);
+
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('Returns true when entry exists in DB', () => {
+    before( async () => {
+      const execute = [[{ id: 1, name: 'Martelo do Thor' }]];
+
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+    after( async () => {
+      connection.execute.restore();
+    });
+
+    it('Returns a boolean', async () => {
+      const result = await productsModel.exists(1);
+
+      expect(result).to.be.a('boolean');
+    });
+    it('The value is true', async () => {
+      const result = await productsModel.exists(1);
+
+      expect(result).to.be.true;
+    });
+  });
+});
 
 // testes do delete()
 
