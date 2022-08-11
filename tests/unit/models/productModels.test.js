@@ -2,14 +2,6 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../models/connection');
 const productsModel = require('../../../models/productsModel');
-                       
-// coisinho só pra não bugar
-const productsModel = {
-  // getAll: async () => {},
-  // getById: async () => { },
-  // create: async ({ id, name }) => {},
-  edit: async (id, { name }) => { },
-}
 
 // teste do getAll()
 describe('Get all products', () => {
