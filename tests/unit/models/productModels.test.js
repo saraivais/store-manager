@@ -4,17 +4,13 @@ const connection = require('../../../models/connection');
                        
 // coisinho só pra não bugar
 const productsModel = {
-  getAll: async () => {
-
-  },
-  getById: async () => {
-
-  },
+  getAll: async () => {},
+  getById: async () => { },
+  create: async ({ id, name }) => {},
 }
 
 // teste do getAll()
 describe('Get all products', () => {
-
   describe('When it receives no arguments', () => {
 
     before( async () => {
@@ -72,7 +68,6 @@ describe('Get all products', () => {
 
 // testes do getById()
 describe('Get product by Id', () => {
-
   describe('When it receives as argument a valid "id"', () => {
     before( async () => {
       const execute = [[
@@ -104,7 +99,8 @@ describe('Get product by Id', () => {
     });
 
   });
-  
+
+  // maybe this will not stand e_e
   describe('When it receives as argument an invalid "id"', () => {
     before( async () => {
       const execute = [[]];
@@ -131,4 +127,33 @@ describe('Get product by Id', () => {
     });
   });
   
+});
+
+describe('Creates one product', () => {
+  describe('Creates and returns the correct object', () => {
+
+    before( async () => {
+      const execute = [{
+          id: 4,
+      }];
+
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+
+    after( async () => {
+      sinon.execute.restore();
+    });
+
+    it('Returns an object', async () => {
+      const result = await productsModel.create({ name: "Hawkeye's Bow" });
+
+      expect(result).to.be.an('object');
+    });
+
+    it('With "id" key', async () => {
+      const result = await productsModel.create({ name: "Hawkeye's Bow" });
+
+      expect(result).to.have.property('id');
+    });
+  });
 });
