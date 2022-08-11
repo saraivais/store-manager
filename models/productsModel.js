@@ -33,6 +33,8 @@ const productsModel = {
     return result;
   },
 
+  exists: async () => { },
+  
 };
 
 module.exports = productsModel;
