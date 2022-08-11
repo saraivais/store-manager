@@ -250,3 +250,59 @@ describe('Deletes a product', () => {
 });
 
 // testes do searchByName();
+describe('Search products by name', () => {
+
+  describe('When there are matches', () => {
+
+    before( async () => {
+      const execute = [[
+        {
+          id: 1,
+          name: 'Martelo de Thor',
+        },
+      ]];
+
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+    after( async () => {
+      connection.execute.restore();
+    });
+
+    it('Returns an array', async () => {
+      const result = await productsModel.search('Martelo');
+
+      expect(result).to.be.an('array');
+    });
+    
+    it('The array has the correct values', async () => {
+      const result = await productsModel.search('Martelo');
+
+      expect(result).to.be.eql([{ id: 1, name: 'Martelo de Thor' }]);
+    });
+  });
+  
+  describe('When there are no matches', () => {
+
+    before( async () => {
+      const execute = [[]];
+
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+
+    after( async () => {
+      connection.execute.restore();
+    });
+
+    it('Returns an array', async () => {
+      const result = await productsModel.search('stringImpossivelDeSerEncontrada');
+
+      expect(result).to.be.an('array');
+    });
+
+    it('The array is empty', async () => {
+      const result = await productsModel.search('stringImpossivelDeSerEncontrada');
+
+      expect(result).to.be.empty;
+    });
+   });
+});
