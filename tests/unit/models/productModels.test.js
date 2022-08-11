@@ -15,7 +15,7 @@ const productsModel = {
 // teste do getAll()
 describe('Get all products', () => {
 
-  describe('When it receives no parameters', () => {
+  describe('When it receives no arguments', () => {
 
     before( async () => {
       const execute = [[
@@ -34,6 +34,10 @@ describe('Get all products', () => {
       ]];
 
       sinon.stub(connection, 'execute').resolves(execute);
+    });
+
+    after( async () => {
+      sinon.execute.restore();
     });
 
     it('returns an array of objects with "id" and "name" keys', async () => {
@@ -69,6 +73,62 @@ describe('Get all products', () => {
 // testes do getById()
 describe('Get product by Id', () => {
 
-  describe('', () => {});
+  describe('When it receives as argument a valid "id"', () => {
+    before( async () => {
+      const execute = [[
+        {
+          id: 1,
+          name: "Martelo do Thor",
+        }
+      ]];
 
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+
+    after( async () => {
+      sinon.execute.restore();
+    });
+
+    it('Returns an array', async () => {
+      const testId = 1;
+      const result = await productsModel.getById(testId);
+
+      expect(result).to.be.an('array');
+    });
+
+    it('Has an object at position 0 with "id" and "name" keys', async () => {
+      const testId = 1;
+      const result = await productsModel.getById(testId);
+
+      expect(result[0]).to.have.all.keys('id', 'name');
+    });
+
+  });
+  
+  describe('When it receives as argument an invalid "id"', () => {
+    before( async () => {
+      const execute = [[]];
+
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+
+    after( async () => {
+      sinon.execute.restore();
+    });
+
+    it('Returns an array', async () => {
+      const testId = 999;
+      const result = await productsModel.getById(testId);
+
+      expect(result).to.be.an('array');
+    });
+
+    it('The array is empty', async () => {
+      const testId = 999;
+      const result = await productsModel.getById(testId);
+
+      expect(result).to.be.empty;
+    });
+  });
+  
 });
