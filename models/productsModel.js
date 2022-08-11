@@ -42,6 +42,7 @@ const productsModel = {
     return (result.length !== 0);
    },
 
+  delete: async () => {},
 };
 
 module.exports = productsModel;
