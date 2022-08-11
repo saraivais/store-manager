@@ -1,13 +1,14 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../models/connection');
+const productsModel = require('../../../models/productsModel');
                        
 // coisinho só pra não bugar
-const productsModel = {
-  getAll: async () => {},
-  getById: async () => { },
-  create: async ({ id, name }) => {},
-}
+// const productsModel = {
+//   getAll: async () => {},
+//   getById: async () => { },
+//   create: async ({ id, name }) => {},
+// }
 
 // teste do getAll()
 describe('Get all products', () => {
@@ -33,13 +34,13 @@ describe('Get all products', () => {
     });
 
     after( async () => {
-      sinon.execute.restore();
+      connection.execute.restore();
     });
 
     it('returns an array of objects with "id" and "name" keys', async () => {
-      const result = await productsModel.getAll();
+      const [result] = await productsModel.getAll();
 
-      expect(result).to.be.an('array').that.contains.something.like({ id: 1, name: 'testing' });
+      expect(result).to.be.an('object').that.have.all.keys('id', 'name');
     });
 
     it('has the correct values', async () => {
@@ -81,7 +82,7 @@ describe('Get product by Id', () => {
     });
 
     after( async () => {
-      sinon.execute.restore();
+      connection.execute.restore();
     });
 
     it('Returns an array', async () => {
@@ -109,7 +110,7 @@ describe('Get product by Id', () => {
     });
 
     after( async () => {
-      sinon.execute.restore();
+      connection.execute.restore();
     });
 
     it('Returns an array', async () => {
@@ -129,6 +130,7 @@ describe('Get product by Id', () => {
   
 });
 
+// testes do create()
 describe('Creates one product', () => {
   describe('Creates and returns the correct object', () => {
 
@@ -141,7 +143,7 @@ describe('Creates one product', () => {
     });
 
     after( async () => {
-      sinon.execute.restore();
+      connection.execute.restore();
     });
 
     it('Returns an object', async () => {
@@ -157,3 +159,11 @@ describe('Creates one product', () => {
     });
   });
 });
+
+// testes do edit()
+
+// testes do exists()
+
+// testes do delete()
+
+// testes do searchByName();
