@@ -33,8 +33,15 @@ const productsModel = {
     return result;
   },
 
-  exists: async () => { },
-  
+  exists: async (id) => {
+    const [result] = await connection.execute(
+      'SELECT * FROM StoreManager.products WHERE id=?;',
+      [id],
+    );
+
+    return (result.length !== 0);
+   },
+
 };
 
 module.exports = productsModel;
