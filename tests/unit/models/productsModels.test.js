@@ -269,13 +269,13 @@ describe('Search products by name', () => {
     });
 
     it('Returns an array', async () => {
-      const result = await productsModel.search('Martelo');
+      const result = await productsModel.searchByName('Martelo');
 
       expect(result).to.be.an('array');
     });
     
     it('The array has the correct values', async () => {
-      const result = await productsModel.search('Martelo');
+      const result = await productsModel.searchByName('Martelo');
 
       expect(result).to.be.eql([{ id: 1, name: 'Martelo de Thor' }]);
     });
@@ -294,13 +294,13 @@ describe('Search products by name', () => {
     });
 
     it('Returns an array', async () => {
-      const result = await productsModel.search('stringImpossivelDeSerEncontrada');
+      const result = await productsModel.searchByName('stringImpossivelDeSerEncontrada');
 
       expect(result).to.be.an('array');
     });
 
     it('The array is empty', async () => {
-      const result = await productsModel.search('stringImpossivelDeSerEncontrada');
+      const result = await productsModel.searchByName('stringImpossivelDeSerEncontrada');
 
       expect(result).to.be.empty;
     });
