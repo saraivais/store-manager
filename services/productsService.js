@@ -48,6 +48,8 @@ const productsService = {
     if (result.affectedRows) return { id, ...validatedName };
   },
 
+  delete: async () => { },
+  
 };
 
 module.exports = productsService;
