@@ -55,8 +55,15 @@ const productsService = {
     return !!deletionResult.affectedRows;
   },
 
-  searchByName: async () => { },
-  
+  searchByName: async ({ q }) => {
+    const searchResult = await productsModel.searchByName(q);
+    if (searchResult.length === 0) {
+      const allProducts = await productsService.getAll();
+      return allProducts;
+    }
+    return searchResult;
+  },
+
 };
 
 module.exports = productsService;
