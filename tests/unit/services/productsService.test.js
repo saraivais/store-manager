@@ -91,7 +91,6 @@ describe('Exists', () => {
   });
 });
 
-// meesa needs help w throw~ from here on :(
 describe('Get product by Id', () => {
   describe('When the id exists', () => {
     before( async () => {
@@ -162,21 +161,24 @@ describe('Validates product name', () => {
   describe('When "name" is not valid', () => {
 
     it('Throws "400|\'name\' is required" when there is no "name" key', async () => {
-      const result = await productsService.validateProductName({});
+      // const result = await productsService.validateProductName({});
 
-      expect(result).to.throws('400|"name" is required');
+      // expect(result).to.throws('400|"name" is required');
+      return expect(productsService.validateProductName({})).to.eventually.be.rejectedWith(Error, '400|"name" is required');
     });
 
     it('Throws "400|\'name\' is required" when the "name" key is empty', async () => {
-      const result = await productsService.validateProductName({ name: '' });
+      // const result = await productsService.validateProductName({ name: '' });
 
-      expect(result).to.throws('400|"name" is required');
+      // expect(result).to.throws('400|"name" is required');
+      return expect(productsService.validateProductName({})).to.eventually.be.rejectedWith(Error, '400|"name" is required');
     });
 
     it('Throws "422|\'name\' length must be at least 5 characters long" when "name" is too short', async () => {
-      const result = await productsService.validateProductName({ name: 'Loki' });
+      // const result = await productsService.validateProductName({ name: 'Loki' });
 
-      expect(result).to.throws('422|"name" length must be at least 5 characters long');
+      // expect(result).to.throws('422|"name" length must be at least 5 characters long');
+      return expect(productsService.validateProductName({ name: 'Loki' })).to.eventually.be.rejectedWith(Error, '422|"name" length must be at least 5 characters long');
     });
 
   });
