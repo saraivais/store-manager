@@ -7,28 +7,28 @@ const productsModel = require('../../../models/productsModel');
 describe('Get all products', () => {
   describe('When it receives no arguments', () => {
 
-    before( async () => {
-      const execute = [[
-        {
-          id: 1,
-          name: "Martelo do Thor",
-        },
-        {
-          id: 2,
-          name: "Traje do encolhimento",
-        },
-        {
-          id: 3,
-          name: "Escudo do Capitão América",
-        }
-      ]];
+  before( async () => {
+    const execute = [[
+      {
+        id: 1,
+        name: "Martelo do Thor",
+      },
+      {
+        id: 2,
+        name: "Traje do encolhimento",
+      },
+      {
+        id: 3,
+        name: "Escudo do Capitão América",
+      }
+    ]];
 
-      sinon.stub(connection, 'execute').resolves(execute);
-    });
+    sinon.stub(connection, 'execute').resolves(execute);
+  });
 
-    after( async () => {
-      connection.execute.restore();
-    });
+  after( async () => {
+    connection.execute.restore();
+  });
 
     it('returns an array of objects with "id" and "name" keys', async () => {
       const [result] = await productsModel.getAll();
