@@ -86,6 +86,7 @@ describe('Exists', () => {
   });
 });
 
+// meesa needs help w throw~
 describe('Get product by Id', () => {
   describe('When the id exists', () => {
     before( async () => {
@@ -131,11 +132,52 @@ describe('Get product by Id', () => {
     it('Throws an error "404|Product not found"', async () => {
       // expect(() => productsService.getById({ id: 999 })).to.throws('404|Product not found');
       // assert.throws(await productsService.getById({ id: 999 }), '404|Product not found');
-    })
+    });
   });
 });
 
-// describe('', () => { });
+describe('Validates product name', () => {
+
+  describe('When "name" is valid', () => {
+
+    it('Returns an object', async () => {
+      const result = await productsService.validateProductName({ name: 'Loki\'s Scepter' });
+
+      expect(result).to.be.an('object');
+    });
+
+    it('Returns the name given as "name" key', async () => {
+      const fakeProduct = { name: 'Iron Man suit'
+    };
+      const result = await productsService.validateProductName(fakeProduct);
+
+      expect(result).to.be.equal(fakeProduct);
+    });
+  });
+
+  describe('When "name" is not valid', () => {
+
+    it('Throws "400|\'name\' is required" when there is no "name" key', async () => {
+      const result = await productsService.validateProductName({});
+
+      expect(result).to.throws('400|"name" is required');
+    });
+
+    it('Throws "400|\'name\' is required" when the "name" key is empty', async () => {
+      const result = await productsService.validateProductName({ name: '' });
+
+      expect(result).to.throws('400|"name" is required');
+    });
+
+    it('Throws "422|\'name\' length must be at least 5 characters long" when "name" is too short', async () => {
+      const result = await productsService.validateProductName({ name: 'Loki' });
+
+      expect(result).to.throws('422|"name" length must be at least 5 characters long');
+    });
+
+  });
+
+});
 
 // describe('', () => { });
 
