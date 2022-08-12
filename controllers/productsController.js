@@ -26,6 +26,12 @@ const productsController = {
     return response.status(200).json(result);
   },
 
+  delete: async (request, response) => {
+    const deleteResult = await productsService.delete(request.params);
+
+    if (deleteResult) return response.status(204).end();
+  },
+
 };
 
 module.exports = productsController;
