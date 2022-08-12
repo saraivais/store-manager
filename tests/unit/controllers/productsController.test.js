@@ -187,6 +187,8 @@ describe('Edits a product', () => {
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
 
+      await productsController.edit(request, response);
+
       expect(response.json.calledWith({ id: 1, name: 'Martelo do Batman' })).to.be.true;
     });
 
@@ -199,9 +201,11 @@ describe('Edits a product', () => {
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
 
+      await productsController.edit(request, response);
+
       expect(response.status.calledWith(200)).to.be.true;
     });
-    
+
   });
 });
 
