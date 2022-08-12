@@ -25,25 +25,27 @@ const productsService = {
   },
 
   validateProductName: runSchema(Joi.object({
-    name: Joi.string().required().min(5).messages({
-      'string.min': '422|"name" length must be at least 5 characters long',
-      'any.required': '400|"name" is required',
+    name: Joi.string().required().empty('').min(5)
+      .messages({
+        'any.required': '400|"name" is required',
+        'any.empty': '400|"name" is required',
+        'string.min': '422|"name" length must be at least 5 characters long',
     }),
   })),
 
-  create: async (productToCreate) => {
-    const verifiedName = await productsService.validateProductName(productToCreate);
-    const creationResult = await productsModel.create(verifiedName);
+  create: async ({ name }) => {
+    const verifiedName = await productsService.validateProductName({ name });
+    const creationResult = await productsModel.create(name);
     return {
+      id: creationResult.insertId,
       ...verifiedName,
-      ...creationResult,
     };
   },
 
-  edit: async (id, newName) => {
+  edit: async ({ id }, { name }) => {
     const idExists = await productsService.exists(id);
     if (!idExists) throw new Error('404|Product not found');
-    const validatedName = await productsService.validateProductName(newName);
+    const validatedName = await productsService.validateProductName({ name });
     await productsModel.edit(id, validatedName);
     return { id, ...validatedName };
   },
