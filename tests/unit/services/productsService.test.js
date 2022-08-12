@@ -210,9 +210,54 @@ describe('Creates one product', () => {
       const result = await productsService.create({ name: 'Black Panther\'s suit' });
 
       expect(result).to.be.eql({ id: 10, name: 'Black Panther\'s suit' });
-
     });
   });
 });
 
-// describe('', () => { });
+describe('Edits a product', () => {
+
+  describe('Can\'t edit if the product id does not exist', () => {
+    before(async () => {
+      const existsResult = false;
+
+      sinon.stub(productsService, 'exists').resolves(existsResult);
+    });
+
+    after(async () => {
+      productsService.exists.restore();
+    });
+    
+    it('Throws an error "404|Product not found"', async () => {
+      expect(() => productsService.edit(999, { name: 'Hulk\'s red shorts' })).to.throws('404|Product not found');
+    });
+  });
+
+  describe('Edits and returns an object with "id" and "name"', () => {
+    before(async () => {
+      const existsResult = true;
+      const validatedName = { name: 'Doctor Strange\'s Cloak of Levitation' };
+      const modelEditResponse = { affectedRows: 1 };
+
+      sinon.stub(productsService, 'exists').resolves(existsResult);
+      sinon.stub(productsService, 'validateProductName').resolves(validatedName);
+    });
+
+    after(async () => {
+      productsService.exists.restore();
+      productsService.validateProductName.restore();
+    });
+
+    it('Returns an object', async () => {
+      const result = await productsService.edit(1, { name: 'Doctor Strange\'s Cloak of Levitation' });
+
+      expect(result).to.be.an('object');
+    });
+
+    it('The object has "id" and "name" keys', async () => {
+      const result = await productsService.edit(1, { name: 'Doctor Strange\'s Cloak of Levitation' });
+
+      expect(result).to.have.all.keys('id', 'name');
+    });
+
+  });
+});
