@@ -40,6 +40,8 @@ const productsService = {
     };
   },
 
+  edit: async () => { },
+  
 };
 
 module.exports = productsService;
