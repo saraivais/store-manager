@@ -44,8 +44,8 @@ const productsService = {
     const idExists = await productsService.exists(id);
     if (!idExists) throw new Error('404|Product not found');
     const validatedName = await productsService.validateProductName(newName);
-    const result = await productsModel.edit(id, validatedName);
-    if (result.affectedRows) return { id, ...validatedName };
+    await productsModel.edit(id, validatedName);
+    return { id, ...validatedName };
   },
 
   delete: async ({ id }) => {
