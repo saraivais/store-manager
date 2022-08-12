@@ -31,6 +31,8 @@ const productsService = {
     }),
   })),
 
+  create: async () => { },
+
 };
 
 module.exports = productsService;
