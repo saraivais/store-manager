@@ -40,8 +40,14 @@ const productsService = {
     };
   },
 
-  edit: async () => { },
-  
+  edit: async (id, newName) => {
+    const idExists = await productsService.exists(id);
+    if (!idExists) throw new Error('404|Product not found');
+    const validatedName = await productsService.validateProductName(newName);
+    const result = await productsModel.edit(id, validatedName);
+    if (result.affectedRows) return { id, ...validatedName };
+  },
+
 };
 
 module.exports = productsService;
