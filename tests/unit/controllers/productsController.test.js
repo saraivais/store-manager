@@ -236,6 +236,118 @@ describe('Deletes a product', () => {
   });
 });
 
-// describe('Search products by name', () => {
+describe('Search products by name', () => {
+  describe('When there are matches', () => {
+    before(async () => {
+      const searchResult = [
+        {
+          id: 1,
+          name: 'Martelo de Thor',
+        }
+      ];
 
-// });
+      sinon.stub(productsService, 'searchByName').resolves(searchResult);
+    });
+
+    after(async () => {
+      productsService.searchByName.restore();
+    });
+
+    it('Returns an array of object as JSON', async () => {
+      const request = {};
+      const response = {};
+      request.query = { q: 'Martelo' };
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      await productsController.searchByName(request, response);
+
+      expect(response.json.calledWith([{ id: 1, name: 'Martelo de Thor' }])).to.be.true;
+
+    });
+
+    it('Returns status code 200', async () => {
+      const request = {};
+      const response = {};
+      request.query = { q: 'Martelo' };
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      await productsController.searchByName(request, response);
+
+      expect(response.status.calledWith(200)).to.be.true;
+
+    });
+  });
+
+  describe('When there are no matches', () => {
+    before(async () => {
+      const searchResult = [];
+      const getAllResult = [
+        {
+          id: 1,
+          name: "Martelo do Thor",
+        },
+        {
+          id: 2,
+          name: "Traje do encolhimento",
+        },
+        {
+          id: 3,
+          name: "Escudo do Capitão América",
+        },
+      ];
+
+      sinon.stub(productsService, 'searchByName').resolves(searchResult);
+      sinon.stub(productsService, 'getAll').resolves(getAllResult);
+    });
+
+    after(async () => {
+      productsService.searchByName.restore();
+      productsService.getAll.restore();
+    });
+
+    it('Calls getAll function from services', async () => {
+      const request = {};
+      const response = {};
+      request.query = { q: 'stringLongaDemaisParaSerEncontrada' };
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      await productsController.searchByName(request, response);
+
+      expect(productsService.getAll.called()).to.be.true;
+    });
+
+    it('Returns an array of objects as JSON', async () => {
+      const request = {};
+      const response = {};
+      request.query = { q: 'stringLongaDemaisParaSerEncontrada' };
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      await productsController.searchByName(request, response);
+
+      expect(response.json.calledWith([{ id: 1, name: "Martelo do Thor" }, { id: 2, name: "Traje do encolhimento" }, { id: 3, name: "Escudo do Capitão América" }])).to.be.true;
+
+    });
+
+    it('Returns status code 200', async () => {
+      const request = {};
+      const response = {};
+      request.query = { q: 'stringLongaDemaisParaSerEncontrada' };
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      await productsController.searchByName(request, response);
+
+      expect(response.status.calledWith(200)).to.be.true;
+    });
+  });
+
+});
