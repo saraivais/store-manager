@@ -1,3 +1,5 @@
+const Joi = require('joi');
+const runSchema = require('./schemaValidation');
 const productsModel = require('../models/productsModel');
 
 const productsService = {
@@ -21,8 +23,13 @@ const productsService = {
     const [chosenProduct] = await productsModel.getById(id);
     return chosenProduct;
   },
-  
-  validateProductName: async () => { },
+
+  validateProductName: runSchema(Joi.object({
+    name: Joi.string().required().min(5).messages({
+      'string.min': '422|"name" length must be at least 5 characters long',
+      'any.required': '400|"name" is required',
+    }),
+  })),
 
 };
 
