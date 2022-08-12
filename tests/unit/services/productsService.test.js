@@ -102,13 +102,13 @@ describe('Get product by Id', () => {
     });
 
     it('Returns the product object', async () => {
-      const result = await productsService.getById(1);
+      const result = await productsService.getById({ id: 1 });
 
       expect(result).to.be.an('object');
     });
 
     it('Returns the expected object', async () => {
-      const result = await productsService.getById(1);
+      const result = await productsService.getById({ id: 1 });
 
       expect(result).to.be.eql({ id: 1, name: 'Martelo de Thor' });
     });
@@ -129,7 +129,8 @@ describe('Get product by Id', () => {
     });
 
     it('Throws an error "404|Product not found"', async () => {
-      expect(() => productsService.getById(999)).to.throws('404|Product not found');
+      // expect(() => productsService.getById({ id: 999 })).to.throws('404|Product not found');
+      // assert.throws(await productsService.getById({ id: 999 }), '404|Product not found');
     })
   });
 });
