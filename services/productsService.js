@@ -22,6 +22,8 @@ const productsService = {
     return chosenProduct;
   },
   
+  validateProductName: async () => { },
+
 };
 
 module.exports = productsService;
