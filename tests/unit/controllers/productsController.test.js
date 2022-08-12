@@ -112,9 +112,49 @@ describe('Get product by Id', () => {
   });
 });
 
-// describe('Creates one product', () => {
+describe('Creates one product', () => {
+  describe('When the product "name" is valid', () => {
+    before(async () => {
+      const createResult = {
+        id: 9,
+        name: 'Hawkeye\'s Bow',
+      };
 
-// });
+    sinon.stub(productsService, 'create').resolves(createResult);
+    });
+
+    after(async () => {
+      productsService.create.restore();
+    });
+
+    it('Returns created object as JSON', async () => {
+      const request = {};
+      const response = {};
+      request.body = { name: 'Hawkeye\'s Bow' };
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      await productsController.create(request, response);
+
+      expect(response.json.calledWith({ id: 9, name: 'Hawkeye\'s Bow' })).to.be.true;
+    });
+
+    it('Returns status code 201', async () => {
+      const request = {};
+      const response = {};
+      request.body = { name: 'Hawkeye\'s Bow' };
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      await productsController.create(request, response);
+
+      expect(response.status.calledWith(201)).to.be.true;
+    });
+
+  });
+});
 
 // describe('Edits a product', () => {
 
