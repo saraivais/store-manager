@@ -27,9 +27,9 @@ const productsController = {
   },
 
   delete: async (request, response) => {
-    const deleteResult = await productsService.delete(request.params);
+    await productsService.delete(request.params);
 
-    if (deleteResult) return response.status(204).end();
+    return response.status(204).end();
   },
 
   searchByName: async (request, response) => {
