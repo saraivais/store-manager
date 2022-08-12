@@ -7,7 +7,11 @@ const productsService = {
     return result;
   },
 
-  // exists: async () => { },
+  exists: async ({ id }) => {
+    const result = await productsModel.exists(id);
+
+    return result;
+  },
 
   // getById: async () => { },
   
