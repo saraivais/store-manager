@@ -7,13 +7,20 @@ const productsService = {
     return result;
   },
 
-  exists: async ({ id }) => {
+  exists: async (id) => {
     const result = await productsModel.exists(id);
 
     return result;
   },
 
-  // getById: async () => { },
+  getById: async ({ id }) => {
+    const exists = await productsModel.exists(id);
+    if (!exists) {
+      throw new Error('404|Product not found');
+    }
+    const [chosenProduct] = await productsModel.getById(id);
+    return chosenProduct;
+  },
   
 };
 
