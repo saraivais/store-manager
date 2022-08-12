@@ -156,9 +156,54 @@ describe('Creates one product', () => {
   });
 });
 
-// describe('Edits a product', () => {
+describe('Edits a product', () => {
+  describe('When the product exists and the "name" is valid', () => {
+    before(async () => {
+      const idExists = true;
+      const validatedName = { name: 'Martelo do Batman' };
+      const editResult = {
+        id: 1,
+        name: 'Martelo do Batman',
+      };
 
-// });
+      sinon.stub(productsService, 'exists').resolves(idExists);
+      sinon.stub(productsService, 'validateProductName').resolves(validatedName);
+      sinon.stub(productsService, 'edit').resolves(editResult);
+
+    });
+
+    after(async () => {
+      productsService.exists.restore();
+      productsService.validateProductName.restore();
+      productsService.edit.restore();
+    });
+
+    it('Returns the edited object as JSON', async () => {
+      const request = {};
+      const response = {};
+      request.params = { id: 1 }
+      request.body = { name: 'Martelo do Batman' };
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      expect(response.json.calledWith({ id: 1, name: 'Martelo do Batman' })).to.be.true;
+    });
+
+    it('Returns status code 200', async () => {
+      const request = {};
+      const response = {};
+      request.params = { id: 1 }
+      request.body = { name: 'Martelo do Batman' };
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      expect(response.status.calledWith(200)).to.be.true;
+    });
+    
+  });
+});
 
 // describe('Deletes a product', () => {
 
