@@ -86,7 +86,7 @@ describe('Exists', () => {
   });
 });
 
-// meesa needs help w throw~
+// meesa needs help w throw~ from here on :(
 describe('Get product by Id', () => {
   describe('When the id exists', () => {
     before( async () => {
@@ -179,6 +179,40 @@ describe('Validates product name', () => {
 
 });
 
-// describe('', () => { });
+describe('Creates one product', () => {
+  describe('Creates and returns the object with "id" and "name"', () => {
+    before(async () => {
+      const createdId = { id: 10 };
+      const validatedName = { name: 'Black Panther\'s suit' };
+
+      sinon.stub(productsModel, 'create').resolves(createdId);
+      sinon.stub(productsService, 'validateProductName').resolves(validatedName);      
+      });
+
+    after(async () => {
+      productsModel.create.restore();
+      productsService.validateProductName.restore();
+    });
+
+    it('Returns an object', async () => {
+      const result = await productsService.create({ name: 'Black Panther\'s suit' });
+
+      expect(result).to.be.an('object');
+    });
+
+    it('The object contains "id" and "name" keys', async () => {
+      const result = await productsService.create({ name: 'Black Panther\'s suit' });
+
+      expect(result).to.have.all.keys('id', 'name');
+    });
+
+    it('The object is the expected one', async () => {
+      const result = await productsService.create({ name: 'Black Panther\'s suit' });
+
+      expect(result).to.be.eql({ id: 10, name: 'Black Panther\'s suit' });
+
+    });
+  });
+});
 
 // describe('', () => { });
