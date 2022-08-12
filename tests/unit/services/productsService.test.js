@@ -263,7 +263,8 @@ describe('Edits a product', () => {
   });
 });
 
-describe('Deletes a product', () => { 
+describe('Deletes a product', () => {
+
   describe('When the product does not exist', () => {
     before(async () => {
       const existsResult = false;
@@ -304,5 +305,87 @@ describe('Deletes a product', () => {
 
       expect(result).to.be.true;
     })
+  });
+});
+
+describe('Search products by name', () => {
+  describe('When there are matches', () => {
+    before(async () => {
+      const searchResult = [
+        {
+          id: 1,
+          name: 'Martelo de Thor',
+        },
+      ];
+
+      sinon.stub(productsModel, 'searchByName').resolves(searchResult);
+    });
+
+    after(async () => {
+      productsModel.searchByName.restore();
+    });
+
+    it('Returns an array', async () => {
+      const result = await productsService.searchByName('Martelo');
+
+      expect(result).to.be.an('array');
+    });
+
+    it('The array has the correct objects', async () => {
+      const result = await productsService.searchByName('Martelo');
+
+      expect(result).to.eql([{ id: 1, name: 'Martelo de Thor' }]);
+    });
+
+  });
+
+  describe('When there are no matches', () => {
+    before(async () => {
+      const searchResult = [];
+      const allProducts = [
+        {
+          id: 1,
+          name: "Martelo do Thor",
+        },
+        {
+          id: 2,
+          name: "Traje do encolhimento",
+        },
+        {
+          id: 3,
+          name: "Escudo do Capitão América",
+        }];
+      
+      sinon.stub(productsModel, 'searchByName').resolves(searchResult);
+      sinon.stub(productsService, 'getAll').resolves(allProducts);
+    });
+
+    after(async () => {
+      productsModel.searchByName.restore();
+      productsService.getAll.restore();
+    });
+
+    it('Returns an array', async () => {
+      const result = await productsService.searchByName('stringImpossivelDeSerEncontrada');
+
+      expect(result).to.be.an('array');
+    });
+
+    it('The array contains all products', async () => {
+      const result = await productsService.searchByName('stringImpossivelDeSerEncontrada');
+      expect(result).to.eql([
+        {
+          id: 1,
+          name: "Martelo do Thor",
+        },
+        {
+          id: 2,
+          name: "Traje do encolhimento",
+        },
+        {
+          id: 3,
+          name: "Escudo do Capitão América",
+        }]);
+    });
   });
 });
