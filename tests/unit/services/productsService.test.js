@@ -9,7 +9,7 @@ const productsModel = require('../../../models/productsModel');
 
 chai.use(chaiAsPromised); // utilizando chai as promised~
 
-describe('Get all products', () => {
+describe('#Service - Get all products', () => {
   before( async () => {
     const getAll = [
       {
@@ -40,7 +40,7 @@ describe('Get all products', () => {
   });
 });
 
-describe('Exists', () => {
+describe('#Service - Exists', () => {
 
   describe('Returns true if product exists', () => {
     before( async () => {
@@ -91,7 +91,7 @@ describe('Exists', () => {
   });
 });
 
-describe('Get product by Id', () => {
+describe('#Service - Get product by Id', () => {
   describe('When the id exists', () => {
     before( async () => {
       const boolean = true;
@@ -139,7 +139,7 @@ describe('Get product by Id', () => {
   });
 });
 
-describe('Validates product name', () => {
+describe('#Service - Validates product name', () => {
 
   describe('When "name" is valid', () => {
 
@@ -176,10 +176,10 @@ describe('Validates product name', () => {
 
 });
 
-describe('Creates one product', () => {
+describe('#Service - Creates one product', () => {
   describe('Creates and returns the object with "id" and "name"', () => {
     before(async () => {
-      const createdId = { id: 10 };
+      const createdId = { insertId: 10 };
       const validatedName = { name: 'Black Panther\'s suit' };
 
       sinon.stub(productsModel, 'create').resolves(createdId);
@@ -211,7 +211,7 @@ describe('Creates one product', () => {
   });
 });
 
-describe('Edits a product', () => {
+describe('#Service - Edits a product', () => {
 
   describe('Can\'t edit if the product id does not exist', () => {
     before(async () => {
@@ -260,7 +260,7 @@ describe('Edits a product', () => {
   });
 });
 
-describe('Deletes a product', () => {
+describe('#Service - Deletes a product', () => {
 
   describe('When the product does not exist', () => {
     before(async () => {
@@ -306,7 +306,7 @@ describe('Deletes a product', () => {
   });
 });
 
-describe('Search products by name', () => {
+describe('#Service - Search products by name', () => {
   describe('When there are matches', () => {
     before(async () => {
       const searchResult = [
