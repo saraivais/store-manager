@@ -1,8 +1,13 @@
-const { expect } = require('chai');
+const chai = require('chai');
+const { expect } = chai;
 const sinon = require('sinon');
+const chaiAsPromised = require('chai-as-promised');
+// const { ValidationError } = require('joi')
 
 const productsService = require('../../../services/productsService');
 const productsModel = require('../../../models/productsModel');
+
+chai.use(chaiAsPromised); // utilizando chai as promised~
 
 describe('Get all products', () => {
   before( async () => {
@@ -130,8 +135,7 @@ describe('Get product by Id', () => {
     });
 
     it('Throws an error "404|Product not found"', async () => {
-      // expect(() => productsService.getById({ id: 999 })).to.throws('404|Product not found');
-      // assert.throws(await productsService.getById({ id: 999 }), '404|Product not found');
+      return expect(productsService.getById({ id: 999 })).to.eventually.be.rejectedWith(Error, '404|Product not found');
     });
   });
 });
