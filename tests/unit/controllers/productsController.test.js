@@ -68,9 +68,49 @@ describe('Get all products', () => {
   });
 });
 
-// describe('Get product by Id', () => {
+describe('Get product by Id', () => {
+  describe('When the id exists', () => {
+    beforeEach(async () => {
+      const getByIdResult = {
+        id: 1,
+        name: "Martelo do Thor",
+      };
 
-// });
+    sinon.stub(productsService, 'getById').resolves(getByIdResult);
+  });
+
+    afterEach(async () => {
+      productsService.getById.restore();
+    });
+
+    it('Returns an object as JSON', async () => {
+      const request = {};
+      const response = {};
+      request.params = { id: '1' };
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      await productsController.getById(request, response);
+
+      expect(response.json.calledWith({ id: 1, name: 'Martelo do Thor' })).to.be.true;
+    });
+
+    it('Returns status code 200', async () => {
+      const request = {};
+      const response = {};
+      request.params = { id: '1' };
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      await productsController.getById(request, response);
+
+      expect(response.status.calledWith(200)).to.be.true;
+    });
+
+  });
+});
 
 // describe('Creates one product', () => {
 
