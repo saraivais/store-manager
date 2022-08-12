@@ -19,6 +19,13 @@ const productsController = {
     return response.status(201).json(createResult);
   },
 
+  edit: async (request, response) => {
+    const id = request.params;
+    const result = await productsService.edit(id, request.body);
+
+    return response.status(200).json(result);
+  },
+
 };
 
 module.exports = productsController;
