@@ -151,7 +151,7 @@ describe('Validates product name', () => {
     };
       const result = await productsService.validateProductName(fakeProduct);
 
-      expect(result).to.be.equal(fakeProduct);
+      expect(result).to.be.eql(fakeProduct);
     });
   });
 
