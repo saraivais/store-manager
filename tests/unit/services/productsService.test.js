@@ -49,13 +49,13 @@ describe('Exists', () => {
     });
 
     it('Returns a boolean', async () => {
-      const result = await productsService.exists({ id: 1 });
+      const result = await productsService.exists(1);
 
       expect(result).to.be.a('boolean');
     });
 
     it('The value is true', async () => {
-      const result = await productsService.exists({ id: 1 });
+      const result = await productsService.exists(1);
 
       expect(result).to.be.true;
     });
@@ -73,20 +73,66 @@ describe('Exists', () => {
     });
 
     it('Returns a boolean', async () => {
-      const result = await productsService.exists({ id: 1001 });
+      const result = await productsService.exists(1001);
 
       expect(result).to.be.a('boolean');
     });
 
     it('The value is false', async () => {
-      const result = await productsService.exists({ id: 1001 });
+      const result = await productsService.exists(1001);
 
       expect(result).to.be.false;
     });
   });
 });
 
-// describe('Get product by Id', () => { });
+describe('Get product by Id', () => {
+  describe('When the id exists', () => {
+    before( async () => {
+      const boolean = true;
+      sinon.stub(productsModel, 'exists').resolves(boolean);
+
+      const product = [{ id: 1, name: 'Martelo de Thor' }];
+      sinon.stub(productsModel, 'getById').resolves(product);
+    });
+
+    after( async () => {
+      productsModel.exists.restore();
+      productsModel.getById.restore();
+    });
+
+    it('Returns the product object', async () => {
+      const result = await productsService.getById(1);
+
+      expect(result).to.be.an('object');
+    });
+
+    it('Returns the expected object', async () => {
+      const result = await productsService.getById(1);
+
+      expect(result).to.be.eql({ id: 1, name: 'Martelo de Thor' });
+    });
+  });
+
+  describe('When the id does not exists', () => {
+    before( async () => {
+      const boolean = false;
+      sinon.stub(productsModel, 'exists').resolves(boolean);
+
+      const product = [];
+      sinon.stub(productsModel, 'getById').resolves(product);
+    });
+
+    after( async () => {
+      productsModel.exists.restore();
+      productsModel.getById.restore();
+    });
+
+    it('Throws an error "404|Product not found"', async () => {
+      expect(() => productsService.getById(999)).to.throws('404|Product not found');
+    })
+  });
+});
 
 // describe('', () => { });
 
