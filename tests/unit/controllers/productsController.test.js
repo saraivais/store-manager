@@ -284,42 +284,26 @@ describe('Search products by name', () => {
 
   describe('When there are no matches', () => {
     before(async () => {
-      const searchResult = [];
-      const getAllResult = [
+      const searchResult = [
         {
           id: 1,
-          name: "Martelo do Thor",
+          name: 'Martelo do Thor',
         },
         {
           id: 2,
-          name: "Traje do encolhimento",
+          name: 'Traje do encolhimento',
         },
         {
           id: 3,
-          name: "Escudo do Capitão América",
+          name: 'Escudo do Capitão America',
         },
       ];
 
       sinon.stub(productsService, 'searchByName').resolves(searchResult);
-      sinon.stub(productsService, 'getAll').resolves(getAllResult);
     });
 
     after(async () => {
       productsService.searchByName.restore();
-      productsService.getAll.restore();
-    });
-
-    it('Calls getAll function from services', async () => {
-      const request = {};
-      const response = {};
-      request.query = { q: 'stringLongaDemaisParaSerEncontrada' };
-
-      response.status = sinon.stub().returns(response);
-      response.json = sinon.stub().returns();
-
-      await productsController.searchByName(request, response);
-
-      expect(productsService.getAll.called()).to.be.true;
     });
 
     it('Returns an array of objects as JSON', async () => {
@@ -332,7 +316,7 @@ describe('Search products by name', () => {
 
       await productsController.searchByName(request, response);
 
-      expect(response.json.calledWith([{ id: 1, name: "Martelo do Thor" }, { id: 2, name: "Traje do encolhimento" }, { id: 3, name: "Escudo do Capitão América" }])).to.be.true;
+      expect(response.json.calledWith([{ id: 1, name: 'Martelo do Thor' }, { id: 2, name: 'Traje do encolhimento' }, { id: 3, name: 'Escudo do Capitão America' }])).to.be.true;
 
     });
 
