@@ -3,7 +3,7 @@ const connection = require('./connection');
 const productsModel = {
   getAll: async () => {
     const [result] = await connection.execute(
-      'SELECT * FROM StoreManager.products;',
+      'SELECT * FROM StoreManager.products ORDER BY id ASC;',
     );
 
     return result;
