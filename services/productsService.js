@@ -48,7 +48,14 @@ const productsService = {
     if (result.affectedRows) return { id, ...validatedName };
   },
 
-  delete: async () => { },
+  delete: async ({ id }) => {
+    const idExists = await productsService.exists(id);
+    if (!idExists) throw new Error('404|Product not found');
+    const deletionResult = await productsModel.delete(id);
+    return !!deletionResult.affectedRows;
+  },
+
+  searchByName: async () => { },
   
 };
 
