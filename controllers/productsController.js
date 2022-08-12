@@ -32,6 +32,11 @@ const productsController = {
     if (deleteResult) return response.status(204).end();
   },
 
+  searchByName: async (request, response) => {
+    const result = await productsService.searchByName(request.query);
+    return response.status(200).json(result);
+  },
+
 };
 
 module.exports = productsController;
