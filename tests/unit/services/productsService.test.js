@@ -161,23 +161,14 @@ describe('Validates product name', () => {
   describe('When "name" is not valid', () => {
 
     it('Throws "400|\'name\' is required" when there is no "name" key', async () => {
-      // const result = await productsService.validateProductName({});
-
-      // expect(result).to.throws('400|"name" is required');
       return expect(productsService.validateProductName({})).to.eventually.be.rejectedWith(Error, '400|"name" is required');
     });
 
     it('Throws "400|\'name\' is required" when the "name" key is empty', async () => {
-      // const result = await productsService.validateProductName({ name: '' });
-
-      // expect(result).to.throws('400|"name" is required');
       return expect(productsService.validateProductName({})).to.eventually.be.rejectedWith(Error, '400|"name" is required');
     });
 
     it('Throws "422|\'name\' length must be at least 5 characters long" when "name" is too short', async () => {
-      // const result = await productsService.validateProductName({ name: 'Loki' });
-
-      // expect(result).to.throws('422|"name" length must be at least 5 characters long');
       return expect(productsService.validateProductName({ name: 'Loki' })).to.eventually.be.rejectedWith(Error, '422|"name" length must be at least 5 characters long');
     });
 
@@ -234,7 +225,7 @@ describe('Edits a product', () => {
     });
     
     it('Throws an error "404|Product not found"', async () => {
-      expect(() => productsService.edit(999, { name: 'Hulk\'s red shorts' })).to.throws('404|Product not found');
+      return expect(productsService.edit(999, { name: 'Hulk\'s red shorts' })).to.eventually.be.rejectedWith(Error, '404|Product not found');
     });
   });
 
@@ -283,7 +274,8 @@ describe('Deletes a product', () => {
     });
 
     it('Throws error "404|Product not found"', async () => {
-      expect(() => productsService.delete({ id: 789 })).to.throws('404|Product not found');
+      // expect(() => productsService.delete({ id: 789 })).to.throws('404|Product not found');
+      return expect(productsService.delete({ id: 789 })).to.eventually.be.rejectedWith(Error, '404|Product not found');
     });
   });
 
