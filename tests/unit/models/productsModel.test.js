@@ -4,7 +4,7 @@ const connection = require('../../../models/connection');
 const productsModel = require('../../../models/productsModel');
 
 // teste do getAll()
-describe('Get all products', () => {
+describe('#Model - Get all products', () => {
   describe('When it receives no arguments', () => {
 
   before( async () => {
@@ -61,7 +61,7 @@ describe('Get all products', () => {
 });
 
 // testes do getById()
-describe('Get product by Id', () => {
+describe('#Model - Get product by Id', () => {
   describe('When it receives as argument a valid "id"', () => {
     before( async () => {
       const execute = [[
@@ -124,7 +124,7 @@ describe('Get product by Id', () => {
 });
 
 // testes do create()
-describe('Creates one product', () => {
+describe('#Model - Creates one product', () => {
   describe('Creates and returns the correct object', () => {
 
     before( async () => {
@@ -154,7 +154,7 @@ describe('Creates one product', () => {
 });
 
 // testes do edit()
-describe('Edits a product', () => {
+describe('#Model - Edits a product', () => {
   before( async () => {
     const execute = [{ affectedRows: 1 }];
 
@@ -178,7 +178,7 @@ describe('Edits a product', () => {
 });
 
 // testes do exists()
-describe('Exists', () => {
+describe('#Model - Exists', () => {
   describe('Returns false when entry does not exist in DB', () => {
     before( async () => {
       const execute = [[]];
@@ -225,7 +225,7 @@ describe('Exists', () => {
 });
 
 // testes do delete()
-describe('Deletes a product', () => {
+describe('#Model - Deletes a product', () => {
   before( async () => {
     const execute = [{ affectedRows: 1 }];
 
@@ -250,7 +250,7 @@ describe('Deletes a product', () => {
 });
 
 // testes do searchByName();
-describe('Search products by name', () => {
+describe('#Model - Search products by name', () => {
 
   describe('When there are matches', () => {
 
