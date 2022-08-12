@@ -209,9 +209,32 @@ describe('Edits a product', () => {
   });
 });
 
-// describe('Deletes a product', () => {
+describe('Deletes a product', () => {
+  before(async () => {
+    const deletedResult = true;
 
-// });
+    sinon.stub(productsService, 'delete').resolves(deletedResult);
+  });
+
+  after(async () => {
+    productsService.delete.restore();
+  });
+
+  describe('When the product exists', () => {
+    it('Returns status code 204', async () => {
+      const request = {};
+      const response = {};
+      request.params = { id: 1 };
+
+      response.status = sinon.stub().returns(response);
+      response.end = sinon.stub().returns();
+
+      await productsController.delete(request, response);
+
+      expect(response.status.calledWith(204)).to.be.true;
+    });
+  });
+});
 
 // describe('Search products by name', () => {
 
