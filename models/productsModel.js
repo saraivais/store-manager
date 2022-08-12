@@ -9,7 +9,7 @@ const productsModel = {
     return result;
   },
 
-  getById: async ({ id }) => {
+  getById: async (id) => {
     const [result] = await connection.execute(
       'SELECT * FROM StoreManager.products WHERE id = ?;',
       [id],
@@ -18,8 +18,8 @@ const productsModel = {
     return result;
   },
 
-  create: async ({ name }) => {
-    const [result] = await connection.execute(
+  create: async (name) => {
+      const [result] = await connection.execute(
       'INSERT INTO StoreManager.products (name) VALUES (?);',
       [name],
     );
@@ -56,10 +56,9 @@ const productsModel = {
 
   searchByName: async (string) => {
     const [result] = await connection.execute(
-      'SELECT * FROM StoreManager.products WHERE name LIKE %?%;',
-      [string],
+      `SELECT * FROM StoreManager.products WHERE products.name LIKE '%${string}%';`,
     );
-
+    
     return result;
   },
 };
