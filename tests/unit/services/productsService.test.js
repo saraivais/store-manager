@@ -262,3 +262,47 @@ describe('Edits a product', () => {
 
   });
 });
+
+describe('Deletes a product', () => { 
+  describe('When the product does not exist', () => {
+    before(async () => {
+      const existsResult = false;
+
+      sinon.stub(productsService, 'exists').resolves(existsResult);
+    });
+
+    after(async () => {
+      productsService.exists.restore();
+    });
+
+    it('Throws error "404|Product not found"', async () => {
+      expect(() => productsService.delete({ id: 789 })).to.throws('404|Product not found');
+    });
+  });
+
+  describe('When the product exists', () => {
+    before(async () => {
+      const existsResult = true;
+      const modelDeleteResult = { affectedRows: 1 };
+
+      sinon.stub(productsService, 'exists').resolves(existsResult);
+      sinon.stub(productsModel, 'delete').resolves(modelDeleteResult);
+    });
+
+    after(async () => {
+      productsService.exists.restore();
+      productsModel.delete.restore();
+    });
+
+    it('Deletes it and returns a boolean', async () => {
+      const result = await productsService.delete({ id: 1 });
+
+      expect(result).to.be.a('boolean');
+    });
+    it('The value is true', async () => {
+      const result = await productsService.delete({ id: 1 });
+
+      expect(result).to.be.true;
+    })
+  });
+});
