@@ -240,6 +240,7 @@ describe('Edits a product', () => {
 
       sinon.stub(productsService, 'exists').resolves(existsResult);
       sinon.stub(productsService, 'validateProductName').resolves(validatedName);
+      sinon.stub(productsModel, 'edit').resolves(modelEditResponse);
     });
 
     after(async () => {
