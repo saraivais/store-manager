@@ -31,7 +31,14 @@ const productsService = {
     }),
   })),
 
-  create: async () => { },
+  create: async (productToCreate) => {
+    const verifiedName = await productsService.validateProductName(productToCreate);
+    const creationResult = await productsModel.create(verifiedName);
+    return {
+      ...verifiedName,
+      ...creationResult,
+    };
+  },
 
 };
 
