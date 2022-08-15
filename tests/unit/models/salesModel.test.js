@@ -330,7 +330,7 @@ describe('Tests salesModel', () => {
   describe('#Model - Edits a sale', () => {
     describe('First it deletes all sales entries from sales_products with deleteSalesProducts', () => {
       before(async () => {
-        const execute = { affectedRows: 2 };
+        const execute = [{ affectedRows: 2 }];
 
         sinon.stub(connection, 'execute').resolves(execute);
       });
@@ -356,12 +356,12 @@ describe('Tests salesModel', () => {
       beforeEach(async () => {
         const deleteEntries = { affectedRows: 2 };
         const firstProduct = {
-          'productId': 1,
-          'quantity': 10
+          productId: 1,
+          quantity: 10
         };
         const secondProduct = {
-          'productId': 2,
-          'quantity': 50
+          productId: 2,
+          quantity: 50
         }
 
         sinon.stub(salesModel, 'deleteSalesProducts').resolves(deleteEntries);
@@ -376,24 +376,24 @@ describe('Tests salesModel', () => {
       });
 
       it('Returns an object', async () => {
-        const result = await salesModel.edit(1, [{ productId: 2, quantity: 10 }, { productId: 2, quantity: 50 }]);
+        const result = await salesModel.edit(1, [{ productId: 1, quantity: 10 }, { productId: 2, quantity: 50 }]);
 
         expect(result).to.be.an('object');
       });
 
       it('The object contains "saleId" and "itemsUpdated" as keys', async () => {
-        const result = await salesModel.edit(1, [{ productId: 2, quantity: 10 }, { productId: 2, quantity: 50 }]);
+        const result = await salesModel.edit(1, [{ productId: 1, quantity: 10 }, { productId: 2, quantity: 50 }]);
 
-        expect(result).to.have.all.keys('salesId', 'itemsUpdated');
+        expect(result).to.have.all.keys('saleId', 'itemsUpdated');
       });
 
       it('The object has the expected values', async () => {
-        const result = await salesModel.edit(1, [{ productId: 2, quantity: 10 }, { productId: 2, quantity: 50 }]);
+        const result = await salesModel.edit(1, [{ productId: 1, quantity: 10 }, { productId: 2, quantity: 50 }]);
 
         expect(result).to.be.eql({
           saleId: 1,
           itemsUpdated: [
-            { productId: 2, quantity: 10 },
+            { productId: 1, quantity: 10 },
             { productId: 2, quantity: 50 },
           ]
         });
