@@ -19,6 +19,12 @@ const salesController = {
     return response.status(201).json(result);
   },
 
+  delete: async (request, response, _next) => {
+    await salesService.delete(request.params);
+
+    return response.status(204).end();
+  },
+
 };
 
 module.exports = salesController;
