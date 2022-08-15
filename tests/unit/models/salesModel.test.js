@@ -132,7 +132,59 @@ describe('#Model - Get sale by Id', () => {
         }
       ]);
     });
-    
+
+  });
+});
+
+// teste do exists() 
+describe('#Model - Sale exists', () => {
+  describe('Returns false when entry does not exists in DB', () => {
+    before(async () => {
+      const execute = [[]];
+
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+
+    after(async () => {
+      connection.execute.restore();
+    });
+
+    it('Returns a boolean', async () => {
+      const result = await salesModel.exists(10);
+
+      expect(result).to.be.a('boolean');
+    });
+
+    it('The value is false', async () => {
+      const result = await salesModel.exists(10);
+
+      expect(result).to.be.false;
+    });
+
+  });
+
+  describe('Returns true when entry exists in DB', () => {
+    before(async () => {
+      const execute = [[{ id: 1, date: '2022-08-15 12:23:53' }]];
+
+      sinon.stub(connection, 'execute').resolves(execute);
+    });
+
+    after(async () => {
+      connection.execute.restore();
+    });
+
+    it('Returns a boolean', async () => {
+      const result = await salesModel.exists(1);
+
+      expect(result).to.be.a('boolean');
+    });
+
+    it('The value is true', async () => {
+      const result = await salesModel.exists(1);
+
+      expect(result).to.be.true;
+    });
   });
 });
 
