@@ -24,6 +24,16 @@ const salesModel = {
 
     return result;
   },
+
+  exists: async (id) => {
+    const [result] = await connection.execute(
+      'SELECT * FROM StoreManager.sales WHERE id = ?',
+      [id],
+    );
+
+    return (result.length !== 0);
+  },
+
 };
 
 module.exports = salesModel;
