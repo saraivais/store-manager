@@ -243,6 +243,62 @@ describe('#Model - Create sales products', () => {
   });
 });
 
+describe('#Model - Creates sale w/ products', () => {
+  describe('Creates rows in both sales and sales_products and returns the correct object', () => {
+    before(async () => { 
+      const insertedSaleId = { id: 10 };
+      const firstProduct = { productId: 1, quantity: 1 };
+      const secondProduct = { productId: 2, quantity: 2 };
+      
+      sinon.stub(salesModel, 'createSale').resolves(insertedSaleId);
+      sinon.stub(salesModel, 'createSalesProducts')
+        .onFirstCall(firstProduct)
+        .onSecondCall(secondProduct);
+    });
+
+    after(async () => { 
+      salesModel.createSale.restore();
+      salesModel.createSalesProducts.restore();
+    });
+
+    it('Returns an object', async () => {
+      const result = await salesModel.create([{ productId: 1, quantity: 1 }, { productId: 2, quantity: 2 }]);
+
+      expect(result).to.be.an('object');
+    });
+
+    it('The object has "id" and "itemsSold" as keys', async () => {
+      const result = await salesModel.create([{ productId: 1, quantity: 1 }, { productId: 2, quantity: 2 }]);
+
+      expect(result).to.have.all.keys('id', 'itemsSold');
+    });
+
+    it('The "itemsSold" key has an array as value', async () => {
+      const result = await salesModel.create([{ productId: 1, quantity: 1 }, { productId: 2, quantity: 2 }]);
+
+      expect(result.itemsSold).to.be.an('array');
+    });
+
+    it('The "itemsSold" array contains the correct objects', async () => {
+      const result = await salesModel.create([{ productId: 1, quantity: 1 }, { productId: 2, quantity: 2 }]);
+
+      expect(result.itemsSold).to.be.eql([{ productId: 1, quantity: 1 }, { productId: 2, quantity: 2 }]);
+    });
+
+    it('The returned object is as expected', async () => {
+      const result = await salesModel.create([{ productId: 1, quantity: 1 }, { productId: 2, quantity: 2 }]);
+
+      expect(result).to.be.eql({
+        id: 10,
+        itemsSold: [
+          { productId: 1, quantity: 1 },
+          { productId: 2, quantity: 2 }
+        ],
+      });
+    })
+  });
+});
+
 /*
 [
   {
