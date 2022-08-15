@@ -34,6 +34,8 @@ const salesModel = {
     return (result.length !== 0);
   },
 
+  create: async () => { },
+  
 };
 
 module.exports = salesModel;
