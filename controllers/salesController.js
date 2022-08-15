@@ -12,6 +12,13 @@ const salesController = {
 
     return response.status(200).json(result);
   },
+
+  create: async (request, response, _next) => {
+    const result = await salesService.create(request.body);
+
+    return response.status(201).json(result);
+  },
+
 };
 
 module.exports = salesController;
