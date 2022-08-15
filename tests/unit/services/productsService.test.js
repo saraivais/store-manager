@@ -120,7 +120,7 @@ describe('Tests productService', () => {
       });
     });
   
-    describe('When the id does not exists', () => {
+    describe('When the id does not exist', () => {
       before( async () => {
         const boolean = false;
         sinon.stub(productsModel, 'exists').resolves(boolean);
