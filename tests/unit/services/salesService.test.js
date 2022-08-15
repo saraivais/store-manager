@@ -4,6 +4,7 @@ const sinon = require('sinon');
 const salesModel = require('../../../models/salesModel');
 const salesService = require('../../../services/salesService');
 const chaiAsPromised = require('chai-as-promised');
+const productsModel = require('../../../models/productsModel');
 
 chai.use(chaiAsPromised);
 
@@ -197,19 +198,90 @@ describe('Tests salesService', () => {
 
     });
   });
+
+  describe('#Service - create a sale', () => {
+    describe('When any productId does not exist', () => {
+      beforeEach(async () => {
+        sinon.stub(productsModel, 'exists')
+          .onCall(0).resolves(true)
+          .onCall(1).resolves(false)
+          .onCall(2).resolves(true);
+      });
+
+      afterEach(async () => {
+        productsModel.exists.restore();
+      });
+
+      it('Throws an error "400|Product not found', async () => {
+        const invalidData = [
+          { productId: 1, quantity: 10 },
+          { productId: 74, quantity: 1 },
+          { productId: 2, quantity: 2 },
+        ];
+
+        return expect(salesService.create(invalidData)).to.eventually.be.rejectedWith(Error, '400|Product not found');
+      });
+    });
+
+    describe('When all values are valid', () => {
+      before(async () => {
+        const createdSale = {
+          id: 10,
+          itemsSold: [
+            { productId: 1, quantity: 1 },
+            { productId: 2, quantity: 2 }
+          ],
+        };
+      
+        sinon.stub(productsModel, 'exists').resolves(true);
+        sinon.stub(salesModel, 'create').resolves(createdSale);
+      });
+
+      after(async () => {
+        productsModel.exists.restore();
+        salesModel.create.restore();
+      });
+
+      it('Returns an object', async () => {
+        const result = await salesService.create([{ productId: 1, quantity: 1 }, { productId: 2, quantity: 2 }]);
+
+        expect(result).to.be.an('object');
+      });
+      
+      it('The object has "id" and "itemsSold" as keys', async () => {
+        const result = await salesService.create([{ productId: 1, quantity: 1 }, { productId: 2, quantity: 2 }]);
+
+        expect(result).to.have.all.keys('id', 'itemsSold');
+      });
+
+      it('"itemsSold" key is an array', async () => {
+        const result = await salesService.create([{ productId: 1, quantity: 1 }, { productId: 2, quantity: 2 }]);
+
+        expect(result.itemsSold).to.be.an('array')
+      });
+
+      it('Returns the expected values', async () => {
+        const result = await salesService.create([{ productId: 1, quantity: 1 }, { productId: 2, quantity: 2 }]);
+
+        expect(result).to.be.eql({
+          id: 10,
+          itemsSold: [
+            { productId: 1, quantity: 1 },
+            { productId: 2, quantity: 2 }
+          ],
+        });
+      });
+
+    });
+  });
 });
 
 /*
-  [
-   {
-    date: '2021-09-09T04:54:29.000Z',
-    productId: 1,
-    quantity: 2,
-   },
-   {
-    date: '2021-09-09T04:54:54.000Z',
-    productId: 2,
-    quantity: 2,
-   },
-  ]
+{
+  id: 10,
+  itemsSold: [
+    { productId: 1, quantity: 1 },
+    { productId: 2, quantity: 2 }
+  ],
+}
 */
