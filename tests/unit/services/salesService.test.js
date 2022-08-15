@@ -212,7 +212,7 @@ describe('Tests salesService', () => {
         productsModel.exists.restore();
       });
 
-      it('Throws an error "400|Product not found', async () => {
+      it('Throws an error "400|Product not found"', async () => {
         const invalidData = [
           { productId: 1, quantity: 10 },
           { productId: 74, quantity: 1 },
