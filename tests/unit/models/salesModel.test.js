@@ -327,6 +327,81 @@ describe('Tests salesModel', () => {
   
   });
 
+  describe('#Model - Edits a sale', () => {
+    describe('First it deletes all sales entries from sales_products with deleteSalesProducts', () => {
+      before(async () => {
+        const execute = { affectedRows: 2 };
+
+        sinon.stub(connection, 'execute').resolves(execute);
+      });
+
+      after(async () => {
+        connection.execute.restore();
+      });
+
+      it('Returns an object', async () => {
+        const result = await salesModel.deleteSalesProducts(1);
+
+        expect(result).to.be.an('object');
+      });
+
+      it('The object contains the number of affected rows', async () => {
+        const result = await salesModel.deleteSalesProducts(1);
+
+        expect(result).to.have.key('affectedRows');
+      });
+    });
+
+    describe('Then it inserts new information into sales_products', () => {
+      beforeEach(async () => {
+        const deleteEntries = { affectedRows: 2 };
+        const firstProduct = {
+          'productId': 1,
+          'quantity': 10
+        };
+        const secondProduct = {
+          'productId': 2,
+          'quantity': 50
+        }
+
+        sinon.stub(salesModel, 'deleteSalesProducts').resolves(deleteEntries);
+        sinon.stub(salesModel, 'createSalesProducts')
+          .onCall(0).resolves(firstProduct)
+          .onCall(1).resolves(secondProduct);
+      });
+
+      afterEach(async () => {
+        salesModel.deleteSalesProducts.restore();
+        salesModel.createSalesProducts.restore();
+      });
+
+      it('Returns an object', async () => {
+        const result = await salesModel.edit(1, [{ productId: 2, quantity: 10 }, { productId: 2, quantity: 50 }]);
+
+        expect(result).to.be.an('object');
+      });
+
+      it('The object contains "saleId" and "itemsUpdated" as keys', async () => {
+        const result = await salesModel.edit(1, [{ productId: 2, quantity: 10 }, { productId: 2, quantity: 50 }]);
+
+        expect(result).to.have.all.keys('salesId', 'itemsUpdated');
+      });
+
+      it('The object has the expected values', async () => {
+        const result = await salesModel.edit(1, [{ productId: 2, quantity: 10 }, { productId: 2, quantity: 50 }]);
+
+        expect(result).to.be.eql({
+          saleId: 1,
+          itemsUpdated: [
+            { productId: 2, quantity: 10 },
+            { productId: 2, quantity: 50 },
+          ]
+        });
+
+      });
+
+    });
+  });
 });
 
 /*
