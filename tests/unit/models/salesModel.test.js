@@ -251,9 +251,10 @@ describe('#Model - Creates sale w/ products', () => {
       const secondProduct = { productId: 2, quantity: 2 };
       
       sinon.stub(salesModel, 'createSale').resolves(insertedSaleId);
+      // sinon.stub(salesModel, 'createSalesProducts').resolves(firstProduct);
       sinon.stub(salesModel, 'createSalesProducts')
-        .onFirstCall(firstProduct)
-        .onSecondCall(secondProduct);
+        .onCall(0).resolves(firstProduct)
+        .onCall(1).resolves(secondProduct);
     });
 
     after(async () => { 
@@ -297,6 +298,31 @@ describe('#Model - Creates sale w/ products', () => {
       });
     })
   });
+});
+
+describe('#Model - Deletes a sale', () => {
+  before(async () => { 
+    const execute = [{ affectedRows: 1 }];
+
+    sinon.stub(connection, 'execute').resolves(execute);
+  });
+
+  after(async () => {
+    connection.execute.restore();
+  });
+
+  it('Deletes a sale and returns an object', async () => {
+    const result = await salesModel.delete(1);
+
+    expect(result).to.be.an('object');
+  });
+  
+  it('The returned object contains the number of affected rows', async () => {
+    const result = await salesModel.delete(1);
+
+    expect(result).to.have.key('affectedRows');
+  });
+
 });
 
 /*
