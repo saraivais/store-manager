@@ -192,7 +192,7 @@ describe('#Model - Sale exists', () => {
 describe('#Model - Creates one sale', () => {
   describe('Creates and returns the correct object', () => {
     before(async () => {
-      const insertSaleExecute = [[{ insertId: 1 }]];
+      const insertSaleExecute = [{ insertId: 1 }];
 
       sinon.stub(connection, 'execute').resolves(insertSaleExecute);
     });
