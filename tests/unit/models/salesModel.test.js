@@ -214,6 +214,34 @@ describe('#Model - Creates one sale', () => {
     });
   });
 });
+
+describe('#Model - Create sales products', () => {
+  describe('Creates a sale_products row and returns the created object', () => {
+    before(async () => {
+      const insertionResult = [{ insertId: 4 }];
+
+      sinon.stub(connection, 'execute').resolves(insertionResult);
+
+    });
+
+    after(async () => {
+      connection.execution.restore();
+    });
+
+    it('Returns an object', async () => {
+      const result = salesModel.createSalesProducts({ productId: 1, quantity: 1 });
+
+      expect(result).to.be.an('object');
+    });
+
+    it('The object has "productId" and "quantity" as keys', async () => {
+      const result = salesModel.createSalesProducts({ productId: 1, quantity: 1 });
+
+      expect(result).to.have.all.keys('productId', 'quantity');
+    });
+  });
+});
+
 /*
 [
   {
