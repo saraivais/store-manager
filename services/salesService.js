@@ -44,6 +44,15 @@ const salesService = {
     const createdSale = await salesModel.create(validatedProducts);
     return createdSale;
   },
+
+  delete: async ({ id }) => {
+    const saleExists = await salesModel.exists(id);
+    if (!saleExists) {
+      throw new Error('404|Sale not found');
+    }
+    const result = await salesModel.delete(id);
+    return (!!result.affectedRows);
+  },
 };
 
 module.exports = salesService;
