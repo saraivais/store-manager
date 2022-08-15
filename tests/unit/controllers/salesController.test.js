@@ -79,5 +79,66 @@ describe('Tests salesController', () => {
 
   });
 
-  
+  describe('Get sale by id', () => {
+    describe('When the id exists', () => {
+      before(async () => {
+        const getByIdResult = [
+          {
+            date: '2021-09-09T04:54:29.000Z',
+            productId: 1,
+            quantity: 2,
+          },
+          {
+            date: '2021-09-09T04:54:54.000Z',
+            productId: 2,
+            quantity: 2,
+          },
+        ];
+
+        sinon.stub(salesService, 'getById').resolves(getByIdResult);
+      });
+
+      after(async () => {
+        salesService.getById.restore();
+      });
+
+      it('Returns status code 200', async () => { 
+        const request = {};
+        const response = {};
+        request.params = { id: '1' };
+
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        await salesController.getById(request, response);
+
+        expect(response.status.calledWith(200)).to.be.true;
+      });
+
+      it('Returns an array of objects as JSON', async () => {
+        const request = {};
+        const response = {};
+        request.params = { id: '1' };
+
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        await salesController.getById(request, response);
+
+        expect(response.json.calledWith([
+          {
+            date: '2021-09-09T04:54:29.000Z',
+            productId: 1,
+            quantity: 2,
+          },
+          {
+            date: '2021-09-09T04:54:54.000Z',
+            productId: 2,
+            quantity: 2,
+          },
+        ])).to.be.true;
+      });
+    });
+  });
+
 });
