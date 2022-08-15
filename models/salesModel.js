@@ -12,6 +12,8 @@ const salesModel = {
     return result;
   },
 
+  getById: async () => { },
+
 };
 
 module.exports = salesModel;
