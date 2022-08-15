@@ -73,6 +73,29 @@ const salesModel = {
     return result;
   },
 
+  deleteSalesProducts: async (saleId) => {
+    const [result] = await connection.execute(
+      'DELETE FROM StoreManager.sales_products WHERE sale_id = ?;',
+      [saleId],
+    );
+
+    return result;
+  },
+
+  edit: async (id, productsToInsert) => {
+    await salesModel.deleteSalesProducts(id);
+    const createdProducts = await Promise.all(productsToInsert
+      .map((newProduct) => salesModel
+        .createSalesProducts(id, newProduct)));
+    
+    const test = {
+      saleId: id,
+      itemsUpdated: createdProducts,
+    };
+    console.log('EDIT RESULT', test);
+    return test;
+  },
+
 };
 
 module.exports = salesModel;
