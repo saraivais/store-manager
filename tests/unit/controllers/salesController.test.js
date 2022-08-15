@@ -141,4 +141,75 @@ describe('Tests salesController', () => {
     });
   });
 
+  describe('Create sale', () => {
+    describe('When the insertion parameters are valid', () => {
+      before(async () => {
+        const createResult = {
+          id: 10,
+          itemsSold: [
+            { productId: 1, quantity: 1 },
+            { productId: 2, quantity: 2 }
+          ],
+        };
+        
+        sinon.stub(salesService, 'create').resolves(createResult);
+      });
+
+      after(async () => {
+        salesService.create.restore();
+      });
+
+      it('Returns status code 201', async () => {
+        const request = {};
+        const response = {};
+        request.body = [
+          {
+            "productId": 1,
+            "quantity": 1,
+          },
+          {
+            "productId": 2,
+            "quantity": 2,
+          }
+        ];
+
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        await salesController.create(request, response);
+
+        expect(response.status.calledWith(201)).to.be.true;
+      });
+      
+      it('Returns an object as JSON', async () => {
+        const request = {};
+        const response = {};
+        request.body = [
+          {
+            "productId": 1,
+            "quantity": 1,
+          },
+          {
+            "productId": 2,
+            "quantity": 2,
+          }
+        ];
+
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        await salesController.create(request, response);
+
+        expect(response.json.calledWith({
+          id: 10,
+          itemsSold: [
+            { productId: 1, quantity: 1 },
+            { productId: 2, quantity: 2 }
+          ],
+        })).to.be.true;
+      });
+
+    });
+  });
+
 });
