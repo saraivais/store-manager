@@ -149,8 +149,54 @@ describe('Tests salesService', () => {
       });
     });
     
-  })
+  });
 
+  describe('#Service - validate sale/product object', () => {
+    describe('When quantity is not valid', () => {
+
+      it('Throws an error "400|\'quantity\' is required" when there is no quantity', async () => {
+        return expect(salesService.validateProductSaleObject({ productId: 1 })).to.eventually.be.rejectedWith(Error, '400|"quantity" is required');
+        
+      });
+
+      it('Throws an error "400|\'quantity\' is required" when quantity is empty', async () => {
+        return expect(salesService.validateProductSaleObject({ productId: 1, quantity: '' })).to.eventually.be.rejectedWith(Error, '400|"quantity" is required');
+      });
+
+      it('Throws error "422|\'quantity\' must be greater than or equal to 1" when quantity is equal or lower than 0', async () => {
+        return expect(salesService.validateProductSaleObject({ productId: 1, quantity: 0 })).to.eventually.be.rejectedWith(Error, '400|"quantity" must be greater than or equal to 1');
+      });
+
+    });
+
+    describe('When productId is not valid', () => {
+
+      it('Throws an error "400|\'productId\' is required" when there is no productId', async () => {
+        return expect(salesService.validateProductSaleObject({ quantity: 2 })).to.eventually.be.rejectedWith(Error, '400|"productId" is required');
+      });
+
+      it('Throws an error "400|\'productId\' is required" when productId is empty', async () => {
+        return expect(salesService.validateProductSaleObject({ quantity: 2, productId: '' })).to.eventually.be.rejectedWith(Error, '400|"productId" is required');
+      });
+
+    });
+
+    describe('When all fields are valid', () => {
+
+      it('Returns an object', async () => {
+        const result = await salesService.validateProductSaleObject({ productId: 1, quantity: 10 });
+        
+        expect(result).to.be.an('object');
+      });
+
+      it('Returns the same object as received', async () => {
+        const result = await salesService.validateProductSaleObject({ productId: 1, quantity: 10 });
+
+        expect(result).to.be.eql({ productId: 1, quantity: 10 });
+      });
+
+    });
+  });
 });
 
 /*
