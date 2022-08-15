@@ -188,7 +188,32 @@ describe('#Model - Sale exists', () => {
   });
 });
 
+// testa createSale
+describe('#Model - Creates one sale', () => {
+  describe('Creates and returns the correct object', () => {
+    before(async () => {
+      const insertSaleExecute = [[{ insertId: 1 }]];
 
+      sinon.stub(connection, 'execute').resolves(insertSaleExecute);
+    });
+
+    after(async () => {
+      connection.execute.restore();
+    });
+
+    it('Returns an object', async () => {
+      const result = await salesModel.createSale();
+
+      expect(result).to.be.an('object');
+    });
+
+    it('The object has the inserted id as "id"', async () => {
+      const result = await salesModel.createSale();
+
+      expect(result).to.have.key('id');
+    });
+  });
+});
 /*
 [
   {
