@@ -5,6 +5,7 @@ const salesController = require('../controllers/salesController');
 const salesRoute = express.Router();
 
 salesRoute.get('/:id', rescue(salesController.getById));
+salesRoute.delete('/:id', rescue(salesController.delete));
 salesRoute.post('/', rescue(salesController.create));
 salesRoute.get('/', rescue(salesController.getAll));
 
