@@ -164,7 +164,7 @@ describe('Tests salesService', () => {
       });
 
       it('Throws error "422|\'quantity\' must be greater than or equal to 1" when quantity is equal or lower than 0', async () => {
-        return expect(salesService.validateProductSaleObject({ productId: 1, quantity: 0 })).to.eventually.be.rejectedWith(Error, '400|"quantity" must be greater than or equal to 1');
+        return expect(salesService.validateProductSaleObject({ productId: 1, quantity: 0 })).to.eventually.be.rejectedWith(Error, '422|"quantity" must be greater than or equal to 1');
       });
 
     });
