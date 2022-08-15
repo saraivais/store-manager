@@ -212,4 +212,30 @@ describe('Tests salesController', () => {
     });
   });
 
+  describe('Deletes sale', () => {
+    describe('When the sale exists', () => {
+
+      before(async () => { 
+        sinon.stub(salesService, 'delete').resolves(true);
+      });
+
+      after(async () => {
+        salesService.delete.restore();
+      });
+
+      it('Returns status code 204', async () => {
+        const request = {};
+        const response = {};
+        request.params = { id: 1 };
+
+        response.status = sinon.stub().returns(response);
+        response.end = sinon.stub().returns();
+
+        await salesController.delete(request, response);
+
+        expect(response.status.calledWith(204)).to.be.true;
+      });
+    });
+  });
+
 });
