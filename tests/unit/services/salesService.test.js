@@ -199,7 +199,7 @@ describe('Tests salesService', () => {
     });
   });
 
-  describe('#Service - create a sale', () => {
+  describe('#Service - Create a sale', () => {
     describe('When any productId does not exist', () => {
       beforeEach(async () => {
         sinon.stub(productsModel, 'exists')
@@ -212,14 +212,14 @@ describe('Tests salesService', () => {
         productsModel.exists.restore();
       });
 
-      it('Throws an error "400|Product not found"', async () => {
+      it('Throws an error "404|Product not found"', async () => {
         const invalidData = [
           { productId: 1, quantity: 10 },
           { productId: 74, quantity: 1 },
           { productId: 2, quantity: 2 },
         ];
 
-        return expect(salesService.create(invalidData)).to.eventually.be.rejectedWith(Error, '400|Product not found');
+        return expect(salesService.create(invalidData)).to.eventually.be.rejectedWith(Error, '404|Product not found');
       });
     });
 
