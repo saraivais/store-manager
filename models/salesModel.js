@@ -8,7 +8,6 @@ const salesModel = {
       JOIN StoreManager.sales_products AS sp
         ON sa.id = sp.sale_id;`,
     );
-    console.log('result dentro do model', result);
     return result;
   },
 
@@ -43,7 +42,6 @@ const salesModel = {
   },
 
   createSalesProducts: async (id, { productId, quantity }) => {
-    console.log('obj recebido', productId, quantity);
     await connection.execute(
       `INSERT INTO StoreManager.sales_products
       (sale_id, product_id, quantity) VALUES (?, ?, ?);`,
@@ -51,18 +49,15 @@ const salesModel = {
     );
 
     const createdProductRow = { productId, quantity };
-    console.log('createdproductrow', createdProductRow);
     return createdProductRow;
   },
 
   create: async (products) => {
     const { id } = await salesModel.createSale();
-    console.log('id', id);
     const createdProducts = await Promise.all(products
       .map((product) => salesModel
         .createSalesProducts(id, product)));
 
-    console.log('createdProducts', createdProducts);
     return {
       id,
       itemsSold: createdProducts,
