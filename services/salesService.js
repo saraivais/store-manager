@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const runSchema = require('./schemaValidation');
 const salesModel = require('../models/salesModel');
+const productsModel = require('../models/productsModel');
 
 const salesService = {
   getAll: async () => {
@@ -31,6 +32,18 @@ const salesService = {
         'number.min': '422|"quantity" must be greater than or equal to 1',
       }),
   })),
+
+  create: async (productsToCreate) => {
+    const validatedProducts = productsToCreate
+      .map((newProduct) => salesService.validateProductSaleObject(newProduct));
+    const allProductsExistence = await Promise.all(validatedProducts
+      .map(({ productId }) => productsModel.exists(productId)));
+    if (allProductsExistence.some((exists) => exists === false)) {
+      throw new Error('400|Product not found');
+    }
+    const createdSale = await salesModel.create(validatedProducts);
+    return createdSale;
+  },
 };
 
 module.exports = salesService;
