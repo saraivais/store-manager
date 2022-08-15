@@ -7,7 +7,7 @@ const salesModel = require('../../../models/salesModel');
 describe('#Model - Get all sales', () => {
   describe('When it receives no arguments', () => {
     before(async () => {
-      const execute = [
+      const execute = [[
         {
           saleId: 1,
           date: '2022-08-15 12:23:53',
@@ -26,7 +26,7 @@ describe('#Model - Get all sales', () => {
           productId: 3,
           quantity: 15,
         },
-      ];
+      ]];
 
       sinon.stub(connection, 'execute').resolves(execute);
     });
