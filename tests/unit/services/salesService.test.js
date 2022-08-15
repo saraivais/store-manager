@@ -274,6 +274,49 @@ describe('Tests salesService', () => {
 
     });
   });
+
+  describe('#Service - Deletes a sale', () => {
+    describe('When the sale id does not exist', () => {
+      before(async () => {
+        sinon.stub(salesModel, 'exists').resolves(false);
+      });
+
+      after(async () => {
+        salesModel.exists.restore();
+      });
+
+      it('Throws an error "404|Sale not found"', async () => {
+        return expect(salesService.delete({ id: 101 })).to.eventually.be.rejectedWith(Error, '404|Sale not found');
+      });
+    });
+
+    describe('When the sale id exists', () => {
+      before(async () => {
+        sinon.stub(salesModel, 'exists').resolves(true);
+        sinon.stub(salesModel, 'delete').resolves({ affectedRows: 1 });
+
+      });
+
+      after(async () => {
+        salesModel.exists.restore();
+        salesModel.delete.restore();
+      });
+
+      it('Returns a boolean indicating that has deleted the sale', async () => {
+        const result = await salesService.delete({ id: 1 });
+
+        expect(result).to.be.a('boolean');
+      });
+
+      it('The value is true', async () => {
+        const result = await salesService.delete({ id: 1 });
+
+        expect(result).to.be.true;
+      });
+
+    });
+  });
+
 });
 
 /*
