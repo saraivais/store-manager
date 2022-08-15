@@ -225,20 +225,21 @@ describe('#Model - Create sales products', () => {
     });
 
     after(async () => {
-      connection.execution.restore();
+      connection.execute.restore();
     });
 
     it('Returns an object', async () => {
-      const result = salesModel.createSalesProducts({ productId: 1, quantity: 1 });
+      const result = await salesModel.createSalesProducts(10, { productId: 1, quantity: 1 });
 
       expect(result).to.be.an('object');
     });
 
     it('The object has "productId" and "quantity" as keys', async () => {
-      const result = salesModel.createSalesProducts({ productId: 1, quantity: 1 });
+      const result = await salesModel.createSalesProducts(10, { productId: 1, quantity: 1 });
 
       expect(result).to.have.all.keys('productId', 'quantity');
     });
+
   });
 });
 
