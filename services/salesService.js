@@ -28,18 +28,20 @@ const salesService = {
     quantity: Joi.number().required().empty('').min(1)
       .messages({
         'any.required': '400|"quantity" is required',
-        'any.empty': '400|"quantity" is required',
+        // 'any.empty': '400|"quantity" is required',
         'number.min': '422|"quantity" must be greater than or equal to 1',
       }),
   })),
 
   create: async (productsToCreate) => {
-    const validatedProducts = productsToCreate
-      .map((newProduct) => salesService.validateProductSaleObject(newProduct));
+    const validatedProducts = await Promise.all(productsToCreate
+      .map((newProduct) => salesService.validateProductSaleObject(newProduct)));
     const allProductsExistence = await Promise.all(validatedProducts
       .map(({ productId }) => productsModel.exists(productId)));
-    if (allProductsExistence.some((exists) => exists === false)) {
-      throw new Error('400|Product not found');
+    if (allProductsExistence
+      .some((productExistence) => productExistence === false)
+    ) {
+      throw new Error('404|Product not found');
     }
     const createdSale = await salesModel.create(validatedProducts);
     return createdSale;
