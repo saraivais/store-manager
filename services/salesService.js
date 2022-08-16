@@ -28,7 +28,6 @@ const salesService = {
     quantity: Joi.number().required().empty('').min(1)
       .messages({
         'any.required': '400|"quantity" is required',
-        // 'any.empty': '400|"quantity" is required',
         'number.min': '422|"quantity" must be greater than or equal to 1',
       }),
   })),
@@ -54,6 +53,15 @@ const salesService = {
     }
     const result = await salesModel.delete(id);
     return (!!result.affectedRows);
+  },
+
+  edit: async ({ id }, newProducts) => {
+    const saleExists = await salesModel.exists(id);
+    if (!saleExists) throw new Error('404|Sale not found');
+    const validatedProducts = await Promise
+      .all(newProducts.map((product) => salesService.validateProductSaleObject(product)));
+    const result = await salesModel.edit(id, validatedProducts);
+    return result;
   },
 };
 
