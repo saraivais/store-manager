@@ -25,6 +25,12 @@ const salesController = {
     return response.status(204).end();
   },
 
+  edit: async (request, response, _next) => {
+    const result = await salesService.edit(request.params, request.body);
+
+    return response.status(200).json(result);
+  },
+
 };
 
 module.exports = salesController;
