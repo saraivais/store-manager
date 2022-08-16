@@ -164,7 +164,7 @@ describe('Tests salesService', () => {
         return expect(salesService.validateProductSaleObject({ productId: 1, quantity: '' })).to.eventually.be.rejectedWith(Error, '400|"quantity" is required');
       });
 
-      it('Throws error "422|\'quantity\' must be greater than or equal to 1" when quantity is equal or lower than 0', async () => {
+      it('Throws error "422|\'quantity\' must be greater than or equal to 1" when quantity is equal or lower than 1', async () => {
         return expect(salesService.validateProductSaleObject({ productId: 1, quantity: 0 })).to.eventually.be.rejectedWith(Error, '422|"quantity" must be greater than or equal to 1');
       });
 
@@ -314,6 +314,73 @@ describe('Tests salesService', () => {
         expect(result).to.be.true;
       });
 
+    });
+  });
+
+  describe('#Service - Edits products', () => {
+    describe('When the sale does not exist', () => {
+      before(async () => {
+        sinon.stub(salesModel, 'exists').resolves(false);
+      });
+      
+      after(async () => {
+        salesModel.exists.restore();
+      });
+
+      it('Throws an error "404|Sale not found', async () => {
+        return expect(salesService.edit(999, [])).to.eventually.be.rejectedWith(Error, '404|Sale not found');
+      });
+    });
+
+    describe('When the sale exists', () => {
+      before(async () => {
+        sinon.stub(salesModel, 'exists').resolves(true);
+        sinon.stub(salesModel, 'edit').resolves({
+          saleId: 1,
+          itemsUpdated: [
+            { productId: 1, quantity: 10 },
+            { productId: 2, quantity: 50 },
+          ]
+        });
+      });
+
+      after(async () => {
+        salesModel.exists.restore();
+        salesModel.edit.restore();
+      });
+
+      it('Returns an object', async () => {
+        const result = await salesService.edit({ id: 1 }, [
+          { productId: 1, quantity: 10 },
+          { productId: 2, quantity: 50 },
+        ]);
+
+        expect(result).to.be.an('object');
+      });
+
+      it('The object has "saleId" and "itemsUpdated" as keys', async () => {
+        const result = await salesService.edit({ id: 1 }, [
+          { productId: 1, quantity: 10 },
+          { productId: 2, quantity: 50 },
+        ]);
+
+        expect(result).to.have.all.keys('saleId', 'itemsUpdated');
+      });
+
+      it('The object has the expected values', async () => {
+        const result = await salesService.edit({ id: 1 }, [
+          { productId: 1, quantity: 10 },
+          { productId: 2, quantity: 50 },
+        ]);
+        
+        expect(result).to.be.eql({
+          saleId: 1,
+          itemsUpdated: [
+            { productId: 1, quantity: 10 },
+            { productId: 2, quantity: 50 },
+          ]
+        });
+       });
     });
   });
 
