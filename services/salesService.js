@@ -60,6 +60,13 @@ const salesService = {
     if (!saleExists) throw new Error('404|Sale not found');
     const validatedProducts = await Promise
       .all(newProducts.map((product) => salesService.validateProductSaleObject(product)));
+    const allProductsExistence = await Promise.all(validatedProducts
+      .map(({ productId }) => productsModel.exists(productId)));
+    if (allProductsExistence
+      .some((productExistence) => productExistence === false)
+    ) {
+      throw new Error('404|Product not found');
+    }
     const result = await salesModel.edit(id, validatedProducts);
     return result;
   },
