@@ -332,7 +332,23 @@ describe('Tests salesService', () => {
       });
     });
 
-    describe('When the sale exists', () => {
+    describe('When any product does not exist', () => {
+      before(async () => {
+        sinon.stub(salesModel, 'exists').resolves(true);
+        sinon.stub(productsModel, 'exists').resolves(false);
+      });
+
+      after(async () => {
+        salesModel.exists.restore();
+        productsModel.exists.restore();
+      });
+
+      it('Throws an error "404|Product not found', async () => {
+        return expect(salesService.edit(10, [{ productId: 78, quantity: 8 }])).to.eventually.be.rejectedWith(Error, '404|Product not found');
+      });
+    });
+
+    describe('When the sale and the products exist', () => {
       before(async () => {
         sinon.stub(salesModel, 'exists').resolves(true);
         sinon.stub(salesModel, 'edit').resolves({
