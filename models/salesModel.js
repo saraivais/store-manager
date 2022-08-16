@@ -88,12 +88,10 @@ const salesModel = {
       .map((newProduct) => salesModel
         .createSalesProducts(id, newProduct)));
     
-    const test = {
+    return {
       saleId: id,
       itemsUpdated: createdProducts,
     };
-    console.log('EDIT RESULT', test);
-    return test;
   },
 
 };
