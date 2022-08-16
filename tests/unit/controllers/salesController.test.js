@@ -238,4 +238,67 @@ describe('Tests salesController', () => {
     });
   });
 
+  describe('Edits a sale', () => {
+    describe('When the sale exists', () => {
+
+      before(async () => {
+        const editResult = {
+          saleId: 1,
+          itemsUpdated: [
+            { productId: 1, quantity: 10 },
+            { productId: 2, quantity: 50 },
+          ]
+        };
+
+        sinon.stub(salesService, 'edit').resolves(editResult);
+
+      });
+      
+      after(async () => {
+        salesService.edit.restore();
+      });
+
+      it('Returns status code 200', async () => {
+        const request = {};
+        const response = {};
+        request.params = { id: 1 };
+        request.body = [
+          { productId: 1, quantity: 10 },
+          { productId: 2, quantity: 50 },
+        ];
+
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        await salesController.edit(request, response);
+
+        expect(response.status.calledWith(200)).to.be.true;
+      });
+
+      it('Returns an object as JSON', async () => {
+        const request = {};
+        const response = {};
+        request.params = { id: 1 };
+        request.body = [
+          { productId: 1, quantity: 10 },
+          { productId: 2, quantity: 50 },
+        ];
+
+        response.status = sinon.stub().returns(response);
+        response.json = sinon.stub().returns();
+
+        await salesController.edit(request, response);
+
+        expect(response.json.calledWith({
+          saleId: 1,
+          itemsUpdated: [
+            { productId: 1, quantity: 10 },
+            { productId: 2, quantity: 50 },
+          ]
+        })).to.be.true;
+      });
+
+    });
+  });
+
 });
