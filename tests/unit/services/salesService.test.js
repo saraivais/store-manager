@@ -351,6 +351,7 @@ describe('Tests salesService', () => {
     describe('When the sale and the products exist', () => {
       before(async () => {
         sinon.stub(salesModel, 'exists').resolves(true);
+        sinon.stub(productsModel, 'exists').resolves(true);
         sinon.stub(salesModel, 'edit').resolves({
           saleId: 1,
           itemsUpdated: [
@@ -363,6 +364,7 @@ describe('Tests salesService', () => {
       after(async () => {
         salesModel.exists.restore();
         salesModel.edit.restore();
+        productsModel.exists.restore();
       });
 
       it('Returns an object', async () => {
