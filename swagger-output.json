@@ -13,66 +13,122 @@
   "paths": {
     "/sales/{id}": {
       "get": {
-        "description": "",
-        "parameters": [],
+        "description": "Returns one specific sale based on ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of sale to use",
+            "required": true
+          }
+        ],
         "responses": {}
       },
       "delete": {
-        "description": "",
-        "parameters": [],
+        "description": "Deletes one specific sale based on ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of sale to use",
+            "required": true
+          }
+        ],
         "responses": {}
       },
       "put": {
-        "description": "",
-        "parameters": [],
+        "description": "Edits one specific sale based on ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of sale to use",
+            "required": true
+          }
+        ],
         "responses": {}
       }
     },
     "/sales/": {
       "post": {
-        "description": "",
+        "description": "Creates a sale",
         "parameters": [],
         "responses": {}
       },
       "get": {
-        "description": "",
+        "description": "Returns all sales",
         "parameters": [],
         "responses": {}
       }
     },
     "/products/search": {
       "get": {
-        "description": "",
-        "parameters": [],
+        "description": "Returns products matching a query string",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "String to search for in product name",
+            "required": true
+          }
+        ],
         "responses": {}
       }
     },
     "/products/{id}": {
       "get": {
-        "description": "",
-        "parameters": [],
+        "description": "Returns one specific product based on ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of product to use",
+            "required": true
+          }
+        ],
         "responses": {}
       },
       "put": {
-        "description": "",
-        "parameters": [],
+        "description": "Edits one specific product based on ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of product to use",
+            "required": true
+          }
+        ],
         "responses": {}
       },
       "delete": {
-        "description": "",
-        "parameters": [],
+        "description": "Deletes one specific product based on ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of product to use",
+            "required": true
+          }
+        ],
         "responses": {}
       }
     },
     "/products/": {
       "get": {
-        "description": "",
+        "description": "Returns all products",
         "parameters": [],
         "responses": {}
       },
       "post": {
-        "description": "",
-        "parameters": [],
+        "description": "Creates a product",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "description": "Product name to be added",
+            "required": true
+          }
+        ],
         "responses": {}
       }
     }
