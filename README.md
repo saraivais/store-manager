@@ -24,6 +24,7 @@ Using **Mocha**, **Chai** and **Sinon**, I developed this project through **TDD*
 - First, I wrote tests for the **Model** layer, which is responsible for data structure and manipulation through MySQL. All tests failed, then the Model layer was constructed and all tests passed.
 - Secondly, the **Service** layer, which is responsible for business rules enforcement before any kind of contact with the database, was also tested and all tests failed. Then, the Service layer was constructed.
 - Thirdly, tests for the **Controller** layer were written and also failed. The Controller layer is the one responsible for direct contact with the Client, using **Express.js** routes and endpoints. It was then constructed and all tests passed.   
+<!-- end of the list -->
 The **Express.js** framework was used to create and structure a flexible yet sturdy RESTful API, through various endpoints later on verified using **Postman**.
 After the project's development, **Swagger** was used to write its documentation. 
 
@@ -56,7 +57,8 @@ Usando **Mocha**, **Chai** e **Sinon**, desenvolvi este projeto por meio do **TD
 
 - Primeiro, escrevi testes para a camada **Model**, que é responsável pela estrutura e manipulação dos dados através do MySQL. Todos os testes falharam, então a camada Model foi construída e todos os testes foram aprovados.
 - Em segundo lugar, a camada **Service**, que é responsável pela aplicação das regras de negócio antes de qualquer tipo de contato com o banco de dados, também foi testada e todos os testes falharam. Em seguida, foi construída a camada de Serviço.
-- Em terceiro lugar, os testes para a camada **Controller** foram escritos e também falharam. A camada Controller é a responsável pelo contato direto com o Cliente, utilizando rotas e endpoints **Express.js**. Foi então construído e todos os testes passaram.   
+- Em terceiro lugar, os testes para a camada **Controller** foram escritos e também falharam. A camada Controller é a responsável pelo contato direto com o Cliente, utilizando rotas e endpoints **Express.js**. Foi então construído e todos os testes passaram.
+<!-- end of the list -->
 O framework **Express.js** foi usado para criar e estruturar uma API RESTful flexível e robusta, por meio de vários endpoints verificados posteriormente usando o **Postman**.
 Após o desenvolvimento do projeto, o **Swagger** foi utilizado para escrever sua documentação.
 ### Instalação
