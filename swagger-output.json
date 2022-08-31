@@ -59,7 +59,6 @@
             "description": "A sale with the inserted ID was not found"
           }
         }
-        }
       },
       "delete": {
         "summary": "Deletes one specific sale based on ID",
@@ -155,9 +154,8 @@
               }
             }
           },
-          },
           "404": {
-
+            "description": "A sale with the inserted ID was not found"
           }
         }
       }
@@ -188,7 +186,49 @@
             }
           }
         },
-        "responses": {}
+        "responses": {
+          "201": {
+            "description": "A sale was created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 3
+                    },
+                    "itemsSold": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "productId": {
+                            "type": "integer",
+                            "example": 2
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "example": 12
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any of the fields are missing"
+          },
+          "404": {
+            "description": "A product was not found in the database"
+          },
+          "422": {
+            "description": "The specified quantity is not valid (negative or null)"
+          }
+        }
       },
       "get": {
         "summary": "Returns all sales",
