@@ -31,7 +31,27 @@ After the project's development, **Swagger** was used to write its documentation
 
 
 ### Installation 📋
+1. Create a directory using the **mkdir** command:
+```
+  mkdir saraivais-projects
+```
 
+2. Access the directory using the **cd** command and clone the repository:
+```
+  cd saraivais-projects
+  git clone git@github.com:saraivais/store-manager.git
+```
+
+3. Access the project directory and install it's dependencies:
+```
+  cd store-manager
+  npm i
+```
+
+4. Lastly, use the **npm start** command and access the **API documentation** via browser, using the following url
+```
+  http://localhost:3000
+```
 
 
 </details>
@@ -65,7 +85,27 @@ Usando **Mocha**, **Chai** e **Sinon**, desenvolvi este projeto por meio do **TD
 O framework **Express.js** foi usado para criar e estruturar uma API RESTful flexível e robusta, por meio de vários endpoints verificados posteriormente usando o **Postman**.
 Após o desenvolvimento do projeto, o **Swagger** foi utilizado para escrever sua documentação.
 ### Instalação 📋
+1. Crie um diretório usando o comando **mkdir**:
+```
+  mkdir saraivais-projetos
+```
 
+2. Acesse o diretório usando o comando **cd** e clone o repositório:
+```
+  cd saraivais-projetos
+  git clone git@github.com:saraivais/store-manager.git
+```
+
+3. Acesse o diretório do projeto e instale suas dependências:
+```
+  cd store-manager
+  npm eu
+```
+
+4. Por fim, use o comando **npm start** e acesse a **documentação da API** pelo navegador, usando o seguinte URL
+```
+  http://localhost:3000
+```
 
 
 </details>
