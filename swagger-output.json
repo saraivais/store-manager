@@ -22,7 +22,8 @@
             "required": true,
             "schema": {
               "type": "integer",
-              "minimum": 1
+              "minimum": 1,
+              "example": 1
             }
             
           }
@@ -70,7 +71,8 @@
             "required": true,
             "schema": {
               "type": "integer",
-              "minimum": 1
+              "minimum": 1,
+              "example": 1
             }
           }
         ],
@@ -96,11 +98,13 @@
                   "properties": {
                     "productId": {
                       "type": "integer",
-                      "minimum": 1
+                      "minimum": 1,
+                      "example": 2
                     },
                     "quantity": {
                       "type": "integer",
-                      "minimum": 1
+                      "minimum": 1,
+                      "example": 10
                     }
                   }
                 }
@@ -116,7 +120,8 @@
             "required": true,
             "schema": {
               "type": "integer",
-              "minimum": 1
+              "minimum": 1,
+              "example": 1
             }
           }
         ],
@@ -174,11 +179,13 @@
                   "properties": {
                     "productId": {
                       "type": "integer",
-                      "minimum": 1
+                      "minimum": 1,
+                      "example": 2
                     },
                     "quantity": {
                       "type": "integer",
-                      "minimum": 1
+                      "minimum": 1,
+                      "example": 5
                     }
                   }
                 }
@@ -278,7 +285,8 @@
             "description": "String to search for in product name",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "Suit"
             }
           }
         ],
@@ -320,7 +328,8 @@
             "required": true,
             "schema": {
               "type": "integer",
-              "minimum": 1
+              "minimum": 1,
+              "example": 2
             }
           }
         ],
@@ -360,7 +369,8 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "The Eye of Agamotto"
                   }
                 }
               }
@@ -375,7 +385,8 @@
             "required": true,
             "schema": {
               "type": "integer",
-              "minimum": 1
+              "minimum": 1,
+              "example": 3
             }
           }
         ],
@@ -415,7 +426,8 @@
             "required": true,
             "schema": {
               "type": "integer",
-              "minimum": 1
+              "minimum": 1,
+              "example": 1
             }
           }
         ],
@@ -469,7 +481,8 @@
                 "type": "object",
                 "properties": {
                   "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Hawkeye's Bow"
                   }
                 }
               }
