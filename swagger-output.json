@@ -13,63 +13,233 @@
   "paths": {
     "/sales/{id}": {
       "get": {
-        "description": "Returns one specific sale based on ID",
+        "summary": "Returns one specific sale based on ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "description": "ID of sale to use",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+            
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "An array of objects containing details of the specific sale",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "date": {
+                        "type": "string",
+                        "example": "2021-09-09T04:54:29.000Z"
+                      },
+                      "productId": {
+                        "type": "integer",
+                        "example": 2
+                      },
+                      "quantity": {
+                        "type": "integer",
+                        "example": 2
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "A sale with the inserted ID was not found"
+          }
+        }
+        }
       },
       "delete": {
-        "description": "Deletes one specific sale based on ID",
+        "summary": "Deletes one specific sale based on ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "description": "ID of sale to use",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
           }
         ],
-        "responses": {}
+        "responses": {
+          "204": {
+            "description": "The sale was successfully deleted"
+          },
+          "404": {
+            "description": "A sale with the inserted ID was not found"
+          }
+        }
       },
       "put": {
-        "description": "Edits one specific sale based on ID",
+        "summary": "Edits one specific sale based on ID",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "productId": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "description": "ID of sale to use",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "An array of objects containing edited details of the specific sale",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "saleId": {
+                      "type": "integer",
+                      "example": "1"
+                    },
+                    "itemsUpdated": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "productId": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "example": 3
+                          }
+                        }
+                      }
+                    }
+                  }
+                  
+                }
+              }
+            }
+          },
+          },
+          "404": {
+
+          }
+        }
       }
     },
     "/sales/": {
       "post": {
-        "description": "Creates a sale",
-        "parameters": [],
+        "summary": "Creates a sale",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "productId": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {}
       },
       "get": {
-        "description": "Returns all sales",
+        "summary": "Returns all sales",
         "parameters": [],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "An array of objects containing all sales",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "saleId": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "date": {
+                        "type": "string",
+                        "example": "2021-09-09T04:54:54.000Z"
+                      },
+                      "productId": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "quantity": {
+                        "type": "integer",
+                        "example": 5
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/products/search": {
       "get": {
-        "description": "Returns products matching a query string",
+        "summary": "Returns products matching a query string",
         "parameters": [
           {
             "name": "q",
             "in": "query",
             "description": "String to search for in product name",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {}
@@ -77,37 +247,49 @@
     },
     "/products/{id}": {
       "get": {
-        "description": "Returns one specific product based on ID",
+        "summary": "Returns one specific product based on ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "description": "ID of product to use",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
           }
         ],
         "responses": {}
       },
       "put": {
-        "description": "Edits one specific product based on ID",
+        "summary": "Edits one specific product based on ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "description": "ID of product to use",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
           }
         ],
         "responses": {}
       },
       "delete": {
-        "description": "Deletes one specific product based on ID",
+        "summary": "Deletes one specific product based on ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "description": "ID of product to use",
-            "required": true
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
           }
         ],
         "responses": {}
@@ -115,20 +297,27 @@
     },
     "/products/": {
       "get": {
-        "description": "Returns all products",
+        "summary": "Returns all products",
         "parameters": [],
         "responses": {}
       },
       "post": {
-        "description": "Creates a product",
-        "parameters": [
-          {
-            "name": "name",
-            "in": "body",
-            "description": "Product name to be added",
-            "required": true
+        "summary": "Creates a product",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
-        ],
+        },
         "responses": {}
       }
     }
