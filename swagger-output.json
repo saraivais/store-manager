@@ -282,7 +282,31 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "Products containing the string in their name or all products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 5
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Iron Man's Nano Suit"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/products/{id}": {
@@ -300,10 +324,49 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "An object containing products details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Captain America's Shield"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "A product with the inserted ID was not found"
+          }
+        }
       },
       "put": {
         "summary": "Edits one specific product based on ID",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
             "name": "id",
@@ -316,7 +379,31 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "A product was successfully edited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 3
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "The Eye of Agamotto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "A product with the inserted ID was not found"
+          }
+        }
       },
       "delete": {
         "summary": "Deletes one specific product based on ID",
@@ -332,14 +419,45 @@
             }
           }
         ],
-        "responses": {}
+        "responses": {
+          "204": {
+            "description": "The product was successfully deleted"
+          },
+          "404": {
+            "description": "A product with the inserted ID was not found"
+          }
+        }
       }
     },
     "/products/": {
       "get": {
         "summary": "Returns all products",
         "parameters": [],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "An array of objects containing all products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Thor's Mjolnir"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       },
       "post": {
         "summary": "Creates a product",
@@ -358,8 +476,29 @@
             }
           }
         },
-        "responses": {}
+        "responses": {
+          "201": {
+            "description": "A product was created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 3
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Hawkeye's Bow"
+                    }
+                }
+              }
+            }
+          }
+        }
       }
     }
+  }
   }
 }
