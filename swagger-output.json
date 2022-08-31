@@ -1,0 +1,504 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Store Manager",
+    "description": "Store Manager is a RESTful API that simulates a management system for sales in drop shipping format, making it possible to create, read, update and delete (CRUD) both products and sales.",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/sales/{id}": {
+      "get": {
+        "summary": "Returns one specific sale based on ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of sale to use",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+            
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of objects containing details of the specific sale",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "date": {
+                        "type": "string",
+                        "example": "2021-09-09T04:54:29.000Z"
+                      },
+                      "productId": {
+                        "type": "integer",
+                        "example": 2
+                      },
+                      "quantity": {
+                        "type": "integer",
+                        "example": 2
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "A sale with the inserted ID was not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes one specific sale based on ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of sale to use",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The sale was successfully deleted"
+          },
+          "404": {
+            "description": "A sale with the inserted ID was not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Edits one specific sale based on ID",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "productId": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of sale to use",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of objects containing edited details of the specific sale",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "saleId": {
+                      "type": "integer",
+                      "example": "1"
+                    },
+                    "itemsUpdated": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "productId": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "example": 3
+                          }
+                        }
+                      }
+                    }
+                  }
+                  
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "A sale with the inserted ID was not found"
+          }
+        }
+      }
+    },
+    "/sales/": {
+      "post": {
+        "summary": "Creates a sale",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "productId": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "A sale was created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 3
+                    },
+                    "itemsSold": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "productId": {
+                            "type": "integer",
+                            "example": 2
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "example": 12
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Any of the fields are missing"
+          },
+          "404": {
+            "description": "A product was not found in the database"
+          },
+          "422": {
+            "description": "The specified quantity is not valid (negative or null)"
+          }
+        }
+      },
+      "get": {
+        "summary": "Returns all sales",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "An array of objects containing all sales",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "saleId": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "date": {
+                        "type": "string",
+                        "example": "2021-09-09T04:54:54.000Z"
+                      },
+                      "productId": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "quantity": {
+                        "type": "integer",
+                        "example": 5
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/search": {
+      "get": {
+        "summary": "Returns products matching a query string",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "String to search for in product name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Products containing the string in their name or all products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 5
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Iron Man's Nano Suit"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "summary": "Returns one specific product based on ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of product to use",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An object containing products details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Captain America's Shield"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "A product with the inserted ID was not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Edits one specific product based on ID",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of product to use",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A product was successfully edited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 3
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "The Eye of Agamotto"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "A product with the inserted ID was not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes one specific product based on ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of product to use",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The product was successfully deleted"
+          },
+          "404": {
+            "description": "A product with the inserted ID was not found"
+          }
+        }
+      }
+    },
+    "/products/": {
+      "get": {
+        "summary": "Returns all products",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "An array of objects containing all products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Thor's Mjolnir"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a product",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "A product was created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 3
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Hawkeye's Bow"
+                    }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  }
+}
