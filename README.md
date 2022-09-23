@@ -1,6 +1,6 @@
 <h1 align="center">STORE MANAGER 📦</h1>
 
-![image](https://user-images.githubusercontent.com/96205316/187704342-639a9671-f74f-487a-b978-4c3aa5e0caf1.png)
+![store-manager](https://user-images.githubusercontent.com/96205316/192040750-49d0c2fb-ee03-42cc-b56f-f5f51e56eb3e.png)
 
 ## English 🇬🇧
 <details>
